@@ -9,9 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('user')->latest()->get();
+        $query = Product::with('user')->latest();
+        
+        if ($request->has('category') && $request->category !== 'all') {
+            $query->where('category', $request->category);
+        }
+        
+        $products = $query->get();
         return view('products.index', compact('products'));
     }
 

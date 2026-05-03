@@ -5,6 +5,17 @@
         <h2 class="font-heading text-4xl text-forest mb-1 text-center">Join us</h2>
         <p class="text-gray-500 mb-6 font-medium text-sm text-center">Create an account to start trading.</p>
 
+        <!-- DEBUG: Show all errors if any -->
+        @if ($errors->any())
+            <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-xs">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('register') }}" x-data="{ role: 'farmer' }" class="space-y-4">
             @csrf
 
@@ -36,14 +47,12 @@
             <div class="space-y-3">
                 <div>
                     <x-input-label for="name" :value="__('Full Name')" class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1" />
-                    <x-text-input id="name" class="block w-full px-4 py-2 bg-sage/10 border-sage/30 focus:ring-forest focus:border-forest rounded-xl text-sm" type="text" name="name" :value="old('name')" required autofocus placeholder="John Doe" />
-                    <x-input-error :messages="$errors->get('name')" class="mt-1 text-[10px]" />
+                    <x-text-input id="name" class="block w-full px-4 py-2 bg-sage/10 border-sage/30 focus:ring-forest focus:border-forest rounded-xl text-sm" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="John Doe" />
                 </div>
 
                 <div>
                     <x-input-label for="email" :value="__('Email')" class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1" />
                     <x-text-input id="email" class="block w-full px-4 py-2 bg-sage/10 border-sage/30 focus:ring-forest focus:border-forest rounded-xl text-sm" type="email" name="email" :value="old('email')" required placeholder="name@example.com" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-1 text-[10px]" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">

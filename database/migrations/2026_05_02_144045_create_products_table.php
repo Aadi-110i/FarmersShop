@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // The Supplier
             $table->string('name');
-            $table->enum('category', ['seeds', 'fertilizers', 'tools']);
+            $table->string('image_url')->nullable();
+            $table->enum('category', ['seeds', 'fertilizers', 'tools', 'manures']);
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->integer('stock_quantity');

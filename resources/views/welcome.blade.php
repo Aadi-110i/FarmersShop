@@ -37,53 +37,30 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
         }
         
-        /* Preloader Styles */
-        #preloader {
+        /* Modern Skeleton Preloader (Soft Reveal) */
+        #page-skeleton {
             position: fixed;
             inset: 0;
-            background-color: #1C3F2B;
+            background-color: #FDF9EC;
             z-index: 9999;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 1s ease-in-out, visibility 1s;
-            overflow: hidden;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
         }
 
-        #preloader.fade-out {
+        #page-skeleton.fade-out {
             opacity: 0;
             visibility: hidden;
         }
 
-        .preloader-bg {
-            position: absolute;
-            inset: 0;
-            background-image: linear-gradient(rgba(28, 63, 43, 0.7), rgba(28, 63, 43, 0.9)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1920');
-            background-size: cover;
-            background-position: center;
-            filter: blur(5px);
-            transform: scale(1.1);
+        .skeleton-logo {
+            animation: pulse 2s infinite ease-in-out;
         }
 
-        .loader-bar {
-            width: 200px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            position: relative;
-            margin-top: 2rem;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .loader-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background: #FDF9EC;
-            width: 0%;
-            transition: width 2s cubic-bezier(0.65, 0, 0.35, 1);
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.02); }
         }
 
         /* Site Content Styles */
@@ -108,16 +85,16 @@
 </head>
 <body class="antialiased text-[#2D3A33] font-sans">
 
-    <!-- Cinematic Preloader -->
-    <div id="preloader">
-        <div class="preloader-bg"></div>
-        <div class="relative z-10 flex flex-col items-center">
-            <svg class="w-20 h-20 text-sunlight mb-6 animate-pulse" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-15h2v6h-2V7zm0 8h2v2h-2v-2z" opacity="0.3"/><path d="M11 21.9v-2.1c-4.4-.5-8-4.1-8.5-8.5H.4c.5 5.5 4.9 9.9 10.6 10.6zm2 0c5.7-.7 10.1-5.1 10.6-10.6h-2.1c-.5 4.4-4.1 8-8.5 8.5v2.1zM2.5 11h2.1c.5-4.4 4.1-8 8.5-8.5V.4C7.4 1.1 3 5.5 2.5 11zm19 0c-.5-5.5-4.9-9.9-10.6-10.6v2.1c4.4.5 8 4.1 8.5 8.5h2.1z"/></svg>
-            <h2 class="font-heading text-4xl text-sunlight tracking-widest uppercase">TerraMarket</h2>
-            <div class="loader-bar">
-                <div class="loader-progress" id="loader-progress"></div>
+    <!-- Modern Soft Preloader -->
+    <div id="page-skeleton">
+        <div class="flex flex-col items-center">
+            <div class="skeleton-logo flex items-center gap-3 text-forest mb-4">
+                <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-15h2v6h-2V7zm0 8h2v2h-2v-2z" opacity="0.3"/><path d="M11 21.9v-2.1c-4.4-.5-8-4.1-8.5-8.5H.4c.5 5.5 4.9 9.9 10.6 10.6zm2 0c5.7-.7 10.1-5.1 10.6-10.6h-2.1c-.5 4.4-4.1 8-8.5 8.5v2.1zM2.5 11h2.1c.5-4.4 4.1-8 8.5-8.5V.4C7.4 1.1 3 5.5 2.5 11zm19 0c-.5-5.5-4.9-9.9-10.6-10.6v2.1c4.4.5 8 4.1 8.5 8.5h2.1z"/></svg>
+                <span class="font-heading font-bold text-3xl tracking-tight">TerraMarket</span>
             </div>
-            <p class="mt-4 text-[10px] font-bold tracking-[0.3em] text-sage opacity-50 uppercase">Cultivating your digital farm</p>
+            <div class="w-32 h-1 bg-forest/10 rounded-full overflow-hidden">
+                <div class="w-full h-full bg-forest animate-[shimmer_2s_infinite]"></div>
+            </div>
         </div>
     </div>
 
@@ -171,7 +148,7 @@
                         <h3 class="font-heading text-2xl text-forest mb-2">Organic Wheat</h3>
                         <p class="text-sm text-gray-700 mb-4">Certified Grade A Seeds</p>
                         <div class="flex items-center justify-between border-t border-white/30 pt-4">
-                            <span class="font-bold text-xl text-earth">$45.00</span>
+                            <span class="font-bold text-xl text-earth">₹1,250</span>
                             <span class="text-xs font-bold uppercase tracking-widest opacity-60">Verified</span>
                         </div>
                     </div>
@@ -210,7 +187,7 @@
                         <h4 class="font-heading text-2xl mb-2 relative z-10">{{ $product->name }}</h4>
                         <p class="text-sm text-sage opacity-60 mb-6 h-10 overflow-hidden relative z-10">{{ $product->description }}</p>
                         <div class="flex items-center justify-between pt-6 border-t border-white/10 relative z-10">
-                            <span class="text-xl font-bold">${{ number_format($product->price, 2) }}</span>
+                            <span class="text-xl font-bold">₹{{ number_format($product->price, 0) }}</span>
                             <span class="text-[10px] uppercase font-bold tracking-widest text-earth">Stock: {{ $product->stock_quantity }}</span>
                         </div>
                     </div>
@@ -238,18 +215,11 @@
 
     <script>
         window.addEventListener('load', function() {
-            const preloader = document.getElementById('preloader');
-            const progress = document.getElementById('loader-progress');
-            
-            // Fill the progress bar
+            const skeleton = document.getElementById('page-skeleton');
+            // Quick fade out for a snappier feel
             setTimeout(() => {
-                progress.style.width = '100%';
-            }, 100);
-
-            // Fade out the preloader after progress is done
-            setTimeout(() => {
-                preloader.classList.add('fade-out');
-            }, 2500);
+                skeleton.classList.add('fade-out');
+            }, 800);
         });
     </script>
 

@@ -3,45 +3,69 @@
         My Inventory
     </x-slot>
 
-    <div class="mb-12 flex justify-between items-center">
-        <p class="text-gray-600">Manage the products you've listed on TerraMarket.</p>
-        <a href="{{ route('products.create') }}" class="bg-[var(--earth-brown)] text-white px-6 py-3 rounded-full font-bold hover:bg-[var(--forest-green)] transition-all shadow-lg">
+    <div class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+            <p class="text-gray-600 font-medium">Manage and track the performance of your agricultural listings.</p>
+        </div>
+        <a href="{{ route('products.create') }}" class="bg-earth text-white px-8 py-4 rounded-full font-bold hover:bg-forest transition-all shadow-xl flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             List New Product
         </a>
     </div>
 
-    <div class="bg-white rounded-[2.5rem] border border-[var(--sage-green)] overflow-hidden shadow-xl shadow-[var(--forest-green)]/5">
-        <table class="w-full text-left">
-            <thead class="bg-[var(--sage-green)]/30">
-                <tr>
-                    <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-[var(--forest-green)]">Product</th>
-                    <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-[var(--forest-green)]">Category</th>
-                    <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-[var(--forest-green)]">Price</th>
-                    <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-[var(--forest-green)]">Stock</th>
-                    <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-[var(--forest-green)] text-right">Action</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-                @forelse($products as $product)
-                    <tr class="hover:bg-[var(--sage-green)]/10 transition-colors">
-                        <td class="px-8 py-6">
-                            <p class="font-bold text-[var(--forest-green)] text-lg">{{ $product->name }}</p>
-                        </td>
-                        <td class="px-8 py-6 capitalize text-sm font-medium text-gray-500">{{ $product->category }}</td>
-                        <td class="px-8 py-6 font-bold text-[var(--earth-brown)]">${{ number_format($product->price, 2) }}</td>
-                        <td class="px-8 py-6 text-sm font-bold">{{ $product->stock_quantity }} units</td>
-                        <td class="px-8 py-6 text-right">
-                            <button class="text-gray-400 hover:text-[var(--forest-green)] transition-colors">
-                                <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                            </button>
-                        </td>
-                    </tr>
-                @empty
+    <div class="bg-white rounded-[3rem] border border-sage/50 overflow-hidden shadow-xl shadow-forest/5">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-sage/10">
                     <tr>
-                        <td colspan="5" class="px-8 py-20 text-center text-gray-400 italic">You haven't listed any products yet.</td>
+                        <th class="px-10 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-forest">Product Details</th>
+                        <th class="px-10 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-forest">Category</th>
+                        <th class="px-10 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-forest">Pricing</th>
+                        <th class="px-10 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-forest">Stock Status</th>
+                        <th class="px-10 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-forest text-right">Actions</th>
                     </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="divide-y divide-sage/10">
+                    @forelse($products as $product)
+                        <tr class="hover:bg-sage/5 transition-colors group">
+                            <td class="px-10 py-8">
+                                <div class="flex items-center gap-6">
+                                    <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-md flex-shrink-0 border-2 border-white">
+                                        <img src="{{ $product->image_url ?? 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=200' }}" 
+                                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                                             alt="{{ $product->name }}">
+                                    </div>
+                                    <div>
+                                        <p class="font-heading text-xl text-forest">{{ $product->name }}</p>
+                                        <p class="text-xs text-gray-400 font-medium line-clamp-1 max-w-[200px]">{{ $product->description }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-10 py-8">
+                                <span class="px-4 py-1.5 rounded-full bg-sage/20 text-forest text-[10px] font-bold uppercase tracking-widest border border-forest/5">
+                                    {{ $product->category }}
+                                </span>
+                            </td>
+                            <td class="px-10 py-8 font-bold text-earth text-xl">₹{{ number_format($product->price, 0) }}</td>
+                            <td class="px-10 py-8">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full {{ $product->stock_quantity > 50 ? 'bg-green-500' : 'bg-amber-500' }}"></div>
+                                    <span class="font-bold text-forest text-sm">{{ $product->stock_quantity }} <span class="text-gray-400 font-medium">units left</span></span>
+                                </div>
+                            </td>
+                            <td class="px-10 py-8 text-right">
+                                <button class="p-3 text-gray-400 hover:text-forest transition-colors hover:bg-white rounded-xl shadow-sm border border-transparent hover:border-sage/20">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-10 py-32 text-center text-gray-400 italic font-medium">You haven't listed any products yet.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </x-app-layout>
