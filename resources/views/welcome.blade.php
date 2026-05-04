@@ -37,6 +37,75 @@
             background-color: #FDF9EC;
         }
         
+        /* --- KINETIC TYPOGRAPHY PRELOADER --- */
+        #page-preloader {
+            position: fixed;
+            inset: 0;
+            background-color: #1C3F2B; /* Deep Forest */
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #FDF9EC;
+        }
+
+        .loader-shutter {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+
+        .shutter-row {
+            flex: 1;
+            background: #1C3F2B;
+            width: 100%;
+            transform-origin: left;
+        }
+
+        .loader-content-wrap {
+            position: relative;
+            z-index: 10;
+            perspective: 1000px;
+        }
+
+        .kinetic-text {
+            font-family: 'Fraunces', serif;
+            font-size: 8vw;
+            line-height: 1;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .kinetic-text span {
+            display: block;
+            transform: translateY(100%);
+        }
+
+        .loader-progress {
+            position: absolute;
+            bottom: 15%;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: rgba(253, 249, 236, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #8C6A53; /* Earth Gold */
+            width: 0%;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-preloader { display: none !important; }
+        }
+
         /* Site Content Styles */
         .hero-image {
             background-image: linear-gradient(rgba(28, 63, 43, 0.2), rgba(28, 63, 43, 0.4)), url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=1200');
@@ -59,22 +128,33 @@
 </head>
 <body class="antialiased text-[#2D3A33] font-sans">
 
-    <!-- 3D Loading Screen Elements -->
-    <div id="loading-overlay">
-        <div id="ui-wrapper">
-            <div id="loading-text">Sowing the seeds... 0%</div>
-            <div id="loading-bar-container">
-                <div id="loading-bar"></div>
-            </div>
-            <button id="enter-btn" class="hidden">EXPLORE MARKETPLACE</button>
+    <!-- Unique Kinetic Typography Preloader -->
+    <div id="page-preloader" role="status" aria-label="Loading TerraMarket">
+        <div class="loader-shutter">
+            <div class="shutter-row"></div>
+            <div class="shutter-row"></div>
+            <div class="shutter-row"></div>
+        </div>
+        
+        <div class="loader-content-wrap">
+            <h1 class="kinetic-text">
+                <span>T</span>
+                <span>E</span>
+                <span>R</span>
+                <span>R</span>
+                <span>A</span>
+            </h1>
+        </div>
+
+        <div class="loader-progress">
+            <div class="progress-bar"></div>
         </div>
     </div>
-    <canvas id="bg"></canvas>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Content Wrapper for Reveal -->
-    <div id="site-content">
+    <div id="site-content" style="opacity: 0;">
     <!-- NAV -->
     <nav class="relative z-50 container mx-auto px-6 py-8 flex justify-between items-center">
         <div class="flex items-center gap-2 text-forest">
@@ -152,21 +232,47 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                @php $products = \App\Models\Product::with('user')->take(4)->get(); @endphp
+                @php 
+                    $products = \App\Models\Product::with('user')->take(4)->get(); 
+                    $image_map = [
+                        'Basmati' => asset('images/products/grainop.png'),
+                        'Wheat' => asset('images/products/grain.png'),
+                        'Cotton' => asset('images/products/cotton.png'),
+                        'Mustard' => asset('images/products/mustard.png'),
+                        'default' => asset('images/products/default.jpg')
+                    ];
+                @endphp
                 @foreach($products as $product)
-                    <div class="bg-white/5 border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group overflow-hidden relative">
+                    @php
+                        $name = strtolower($product->name);
+                        $img_url = $image_map['default'];
+                        if (str_contains($name, 'basmati')) $img_url = $image_map['Basmati'];
+                        elseif (str_contains($name, 'wheat')) $img_url = $image_map['Wheat'];
+                        elseif (str_contains($name, 'cotton')) $img_url = $image_map['Cotton'];
+                        elseif (str_contains($name, 'mustard')) $img_url = $image_map['Mustard'];
+                    @endphp
+                    <div class="bg-white/5 border border-white/10 rounded-[2.5rem] hover:bg-white/10 transition-all group overflow-hidden relative flex flex-col">
+                        <!-- Product Image -->
+                        <div class="h-48 w-full overflow-hidden relative bg-forest/20">
+                            <img src="{{ $img_url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ $product->name }}">
+                            <div class="absolute inset-0 bg-gradient-to-t from-forest/80 to-transparent opacity-40"></div>
+                        </div>
+
+                        <div class="p-8 relative z-10 flex-grow">
+                            <div class="text-earth text-[10px] font-bold uppercase tracking-[0.2em] mb-3">
+                                {{ $product->category }}
+                            </div>
+                            <h4 class="font-heading text-2xl mb-2 text-sunlight">{{ $product->name }}</h4>
+                            <p class="text-sm text-sage opacity-60 mb-8 line-clamp-2">{{ $product->description }}</p>
+                            
+                            <div class="flex items-center justify-between pt-6 border-t border-white/10 mt-auto">
+                                <span class="text-xl font-bold text-sunlight">₹{{ number_format($product->price, 0) }}</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-earth">Stock: {{ $product->stock_quantity }}</span>
+                            </div>
+                        </div>
+
                         <!-- Tiny background splash -->
-                        <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:bg-earth/20 transition-all"></div>
-                        
-                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500 relative z-10">
-                            @if($product->category == 'seeds') 🌱 @elseif($product->category == 'fertilizers') 🧪 @else 🚜 @endif
-                        </div>
-                        <h4 class="font-heading text-2xl mb-2 relative z-10">{{ $product->name }}</h4>
-                        <p class="text-sm text-sage opacity-60 mb-6 h-10 overflow-hidden relative z-10">{{ $product->description }}</p>
-                        <div class="flex items-center justify-between pt-6 border-t border-white/10 relative z-10">
-                            <span class="text-xl font-bold">₹{{ number_format($product->price, 0) }}</span>
-                            <span class="text-[10px] uppercase font-bold tracking-widest text-earth">Stock: {{ $product->stock_quantity }}</span>
-                        </div>
+                        <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:bg-earth/20 transition-all pointer-events-none"></div>
                     </div>
                 @endforeach
             </div>
@@ -191,6 +297,66 @@
     </footer>
     </div> <!-- End site-content -->
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        // GSAP Animation Sequence for Kinetic Typography
+        const tl = gsap.timeline({
+            defaults: { ease: "expo.inOut" }
+        });
+
+        window.addEventListener('load', function() {
+            // 1. Progress Bar Loading
+            tl.to('.progress-bar', {
+                width: '100%',
+                duration: 2,
+                ease: "power2.inOut"
+            })
+            // 2. Text Stagger In
+            .to('.kinetic-text span', {
+                y: 0,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "expo.out"
+            }, "-=1.5")
+            // 3. Text Stagger Out
+            .to('.kinetic-text span', {
+                y: '-100%',
+                duration: 1,
+                stagger: 0.05,
+                delay: 0.5,
+                ease: "expo.in"
+            })
+            // 4. Shutter Reveal
+            .to('.shutter-row', {
+                scaleX: 0,
+                duration: 1.5,
+                stagger: 0.15,
+                ease: "expo.inOut"
+            }, "-=0.5")
+            // 5. Cleanup
+            .to('#page-preloader', {
+                display: 'none',
+                duration: 0.1
+            })
+            // 6. Reveal site-content
+            .to('#site-content', {
+                opacity: 1,
+                duration: 0.1
+            }, "-=1.2")
+            .from('nav', {
+                y: -50,
+                opacity: 0,
+                duration: 1.5,
+                ease: "expo.out"
+            }, "-=1")
+            .from('.hero-content > *', {
+                y: 60,
+                opacity: 0,
+                duration: 1.5,
+                stagger: 0.1,
+                ease: "expo.out"
+            }, "-=1.3");
+        });
+    </script>
+
 </body>
 </html>
