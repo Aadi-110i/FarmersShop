@@ -8,10 +8,11 @@
     <!-- Google Fonts: Fraunces & DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght,SOFT@9..144,300..900,50..100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@SOFT@9..144,300..900,50..100&display=swap" rel="stylesheet">
 
     <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -37,30 +38,73 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
         }
         
-        /* Modern Skeleton Preloader (Soft Reveal) */
-        #page-skeleton {
+        /* --- KINETIC TYPOGRAPHY PRELOADER --- */
+        #page-preloader {
             position: fixed;
             inset: 0;
-            background-color: #FDF9EC;
-            z-index: 9999;
+            background-color: #1C3F2B; /* Deep Forest */
+            z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+            overflow: hidden;
+            color: #FDF9EC;
         }
 
-        #page-skeleton.fade-out {
-            opacity: 0;
-            visibility: hidden;
+        .loader-shutter {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
         }
 
-        .skeleton-logo {
-            animation: pulse 2s infinite ease-in-out;
+        .shutter-row {
+            flex: 1;
+            background: #1C3F2B;
+            width: 100%;
+            transform-origin: left;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1.02); }
+        .loader-content-wrap {
+            position: relative;
+            z-index: 10;
+            perspective: 1000px;
+        }
+
+        .kinetic-text {
+            font-family: 'Fraunces', serif;
+            font-size: 8vw;
+            line-height: 1;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .kinetic-text span {
+            display: block;
+            transform: translateY(100%);
+        }
+
+        .loader-progress {
+            position: absolute;
+            bottom: 15%;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: rgba(253, 249, 236, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #8C6A53; /* Earth Gold */
+            width: 0%;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-preloader { display: none !important; }
         }
 
         /* Site Content Styles */
@@ -85,19 +129,31 @@
 </head>
 <body class="antialiased text-[#2D3A33] font-sans">
 
-    <!-- Modern Soft Preloader -->
-    <div id="page-skeleton">
-        <div class="flex flex-col items-center">
-            <div class="skeleton-logo flex items-center gap-3 text-forest mb-4">
-                <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-15h2v6h-2V7zm0 8h2v2h-2v-2z" opacity="0.3"/><path d="M11 21.9v-2.1c-4.4-.5-8-4.1-8.5-8.5H.4c.5 5.5 4.9 9.9 10.6 10.6zm2 0c5.7-.7 10.1-5.1 10.6-10.6h-2.1c-.5 4.4-4.1 8-8.5 8.5v2.1zM2.5 11h2.1c.5-4.4 4.1-8 8.5-8.5V.4C7.4 1.1 3 5.5 2.5 11zm19 0c-.5-5.5-4.9-9.9-10.6-10.6v2.1c4.4.5 8 4.1 8.5 8.5h2.1z"/></svg>
-                <span class="font-heading font-bold text-3xl tracking-tight">TerraMarket</span>
-            </div>
-            <div class="w-32 h-1 bg-forest/10 rounded-full overflow-hidden">
-                <div class="w-full h-full bg-forest animate-[shimmer_2s_infinite]"></div>
-            </div>
+    <!-- Unique Kinetic Typography Preloader -->
+    <div id="page-preloader" role="status" aria-label="Loading TerraMarket">
+        <div class="loader-shutter">
+            <div class="shutter-row"></div>
+            <div class="shutter-row"></div>
+            <div class="shutter-row"></div>
+        </div>
+        
+        <div class="loader-content-wrap">
+            <h1 class="kinetic-text">
+                <span>T</span>
+                <span>E</span>
+                <span>R</span>
+                <span>R</span>
+                <span>A</span>
+            </h1>
+        </div>
+
+        <div class="loader-progress">
+            <div class="progress-bar"></div>
         </div>
     </div>
 
+    <!-- Content Wrapper for Reveal -->
+    <div id="site-content" style="opacity: 0;">
     <!-- NAV -->
     <nav class="relative z-50 container mx-auto px-6 py-8 flex justify-between items-center">
         <div class="flex items-center gap-2 text-forest">
@@ -119,7 +175,7 @@
     <header class="relative pt-10 pb-20 overflow-hidden">
         <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
             
-            <div class="relative z-20">
+            <div class="relative z-20 hero-content">
                 <div class="inline-block px-4 py-1.5 rounded-full bg-sage text-forest text-xs font-bold uppercase tracking-widest mb-6">
                     Direct Farmer-to-Supplier Trade
                 </div>
@@ -212,14 +268,66 @@
             <p class="text-sage opacity-50 text-sm">© 2026 TerraMarket Agricultural Marketplace. All Rights Reserved.</p>
         </div>
     </footer>
+    </div> <!-- End site-content -->
 
     <script>
+        // GSAP Animation Sequence for Kinetic Typography
+        const tl = gsap.timeline({
+            defaults: { ease: "expo.inOut" }
+        });
+
         window.addEventListener('load', function() {
-            const skeleton = document.getElementById('page-skeleton');
-            // Quick fade out for a snappier feel
-            setTimeout(() => {
-                skeleton.classList.add('fade-out');
-            }, 800);
+            // 1. Progress Bar Loading
+            tl.to('.progress-bar', {
+                width: '100%',
+                duration: 2,
+                ease: "power2.inOut"
+            })
+            // 2. Text Stagger In
+            .to('.kinetic-text span', {
+                y: 0,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "expo.out"
+            }, "-=1.5")
+            // 3. Text Stagger Out
+            .to('.kinetic-text span', {
+                y: '-100%',
+                duration: 1,
+                stagger: 0.05,
+                delay: 0.5,
+                ease: "expo.in"
+            })
+            // 4. Shutter Reveal
+            .to('.shutter-row', {
+                scaleX: 0,
+                duration: 1.5,
+                stagger: 0.15,
+                ease: "expo.inOut"
+            }, "-=0.5")
+            // 5. Cleanup
+            .to('#page-preloader', {
+                display: 'none',
+                duration: 0.1
+            })
+            // 6. Reveal site-content
+            .to('#site-content', {
+                opacity: 1,
+                duration: 0.1
+            }, "-=1.2")
+            .from('nav', {
+                y: -50,
+                opacity: 0,
+                duration: 1.5,
+                ease: "expo.out"
+            }, "-=1")
+            .from('.hero-content > *', {
+                y: 60,
+                opacity: 0,
+                duration: 1.5,
+                stagger: 0.1,
+                ease: "expo.out"
+            }, "-=1.3");
         });
     </script>
 

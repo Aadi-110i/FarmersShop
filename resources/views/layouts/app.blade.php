@@ -5,14 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>Terra - {{ $header ?? 'Marketplace' }}</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght,SOFT@9..144,300..900,50..100&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@SOFT@9..144,300..900,50..100&display=swap" rel="stylesheet">
 
-        <!-- Tailwind via CDN for immediate internal styling -->
+        <!-- Tailwind via CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
             tailwind.config = {
@@ -23,6 +23,9 @@
                             sage: '#E4EBE5',
                             earth: '#8C6A53',
                             sunlight: '#FDF9EC',
+                            gold: '#D4AF37',
+                            cream: '#F5F5DC',
+                            emerald: '#065f46',
                         },
                         fontFamily: {
                             heading: ['Fraunces', 'serif'],
@@ -33,6 +36,9 @@
             }
         </script>
 
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
         <style>
             :root {
                 --forest-green: #1C3F2B;
@@ -40,32 +46,31 @@
                 --earth-brown: #8C6A53;
                 --sunlight: #FDF9EC;
             }
+
             body {
-                background-color: var(--sunlight);
-                font-family: 'DM Sans', sans-serif;
+                background-color: #FDF9EC;
                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
             }
+
             .font-heading {
                 font-family: 'Fraunces', serif;
-                font-variation-settings: "SOFT" 100;
             }
-            
-            /* Internal component overrides to match theme */
-            .nav-link-active {
-                border-bottom: 2px solid var(--forest-green);
-                color: var(--forest-green);
+
+            /* Custom Premium Shadows */
+            .premium-shadow {
+                box-shadow: 0 25px 50px -12px rgba(28, 63, 43, 0.08);
             }
         </style>
     </head>
-    <body class="antialiased text-[#2D3A33]">
-        <div class="min-h-screen flex flex-col">
+    <body class="font-sans antialiased">
+        <div class="min-h-screen">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white/50 backdrop-blur-md border-b border-sage/50">
-                    <div class="max-w-7xl mx-auto py-12 px-8">
-                        <h2 class="font-heading text-5xl text-forest leading-tight">
+                <header class="pt-28 pb-10">
+                    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                        <h2 class="font-heading font-bold text-5xl text-[var(--forest-green)] leading-tight">
                             {{ $header }}
                         </h2>
                     </div>
@@ -73,18 +78,9 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="flex-grow py-12 px-8">
-                <div class="max-w-7xl mx-auto">
-                    {{ $slot }}
-                </div>
+            <main class="max-w-7xl mx-auto px-6 lg:px-8 pb-12">
+                {{ $slot }}
             </main>
-
-            <!-- Nature Decor -->
-            <div class="pointer-events-none fixed bottom-0 right-0 opacity-[0.03]">
-                <svg class="w-[500px] h-[500px] translate-x-1/4 translate-y-1/4" fill="var(--forest-green)" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M45.7,-76.4C58.9,-69.3,68.9,-54.6,76.5,-40.1C84.1,-25.6,89.3,-11.3,87.6,2.2C85.8,15.7,77,28.4,67.6,39.6C58.2,50.8,48.2,60.5,36.1,68.6C24,76.7,9.8,83.2,-4.2,88.9C-18.2,94.6,-32.4,99.5,-44.7,93.9C-57,88.3,-67.4,72.2,-74.6,56.1C-81.8,40,-85.8,24,-86.6,8.2C-87.4,-7.6,-85.1,-23.2,-77.8,-36.5C-70.5,-49.8,-58.3,-60.8,-44.6,-67.5C-30.9,-74.2,-15.5,-76.6,0.6,-77.5C16.7,-78.4,32.5,-83.5,45.7,-76.4Z" transform="translate(100 100)" />
-                </svg>
-            </div>
         </div>
     </body>
 </html>

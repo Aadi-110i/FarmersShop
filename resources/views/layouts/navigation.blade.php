@@ -27,8 +27,22 @@
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <!-- Right Side Navigation -->
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-4">
+                <!-- Cart Button -->
+                <a href="{{ route('cart.index') }}" class="relative inline-flex items-center px-4 py-2 border border-[var(--sage-green)] text-sm leading-4 font-bold rounded-full text-[var(--forest-green)] bg-[var(--sage-green)]/30 hover:bg-[var(--sage-green)] transition ease-in-out duration-150">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <span>Cart</span>
+                    @if(session()->has('cart') && count(session('cart')) > 0)
+                        <span class="absolute -top-2 -right-2 bg-earth text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-lg">
+                            {{ count(session('cart')) }}
+                        </span>
+                    @endif
+                </a>
+
+                <!-- Settings Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-4 py-2 border border-[var(--sage-green)] text-sm leading-4 font-bold rounded-full text-[var(--forest-green)] bg-[var(--sage-green)]/30 hover:bg-[var(--sage-green)] transition ease-in-out duration-150">
@@ -81,6 +95,14 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                 {{ __('Marketplace') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
+                {{ __('My Cart') }}
+                @if(session()->has('cart') && count(session('cart')) > 0)
+                    <span class="ml-2 bg-earth text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                        {{ count(session('cart')) }}
+                    </span>
+                @endif
             </x-responsive-nav-link>
         </div>
 

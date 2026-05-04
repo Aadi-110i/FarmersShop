@@ -11,8 +11,18 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                forest: '#1C3F2B',
+                sage: '#E4EBE5',
+                earth: '#8C6A53',
+                sunlight: '#FDF9EC',
+                gold: '#D4AF37',
+                cream: '#F5F5DC',
+                emerald: '#065f46',
+            },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['DM Sans', ...defaultTheme.fontFamily.sans],
+                heading: ['Fraunces', 'serif'],
             },
         },
     },
