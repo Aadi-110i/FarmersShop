@@ -35,78 +35,8 @@
     <style>
         body {
             background-color: #FDF9EC;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
         }
         
-        /* --- KINETIC TYPOGRAPHY PRELOADER --- */
-        #page-preloader {
-            position: fixed;
-            inset: 0;
-            background-color: #1C3F2B; /* Deep Forest */
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            color: #FDF9EC;
-        }
-
-        .loader-shutter {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            z-index: 1;
-        }
-
-        .shutter-row {
-            flex: 1;
-            background: #1C3F2B;
-            width: 100%;
-            transform-origin: left;
-        }
-
-        .loader-content-wrap {
-            position: relative;
-            z-index: 10;
-            perspective: 1000px;
-        }
-
-        .kinetic-text {
-            font-family: 'Fraunces', serif;
-            font-size: 8vw;
-            line-height: 1;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            display: flex;
-            overflow: hidden;
-        }
-
-        .kinetic-text span {
-            display: block;
-            transform: translateY(100%);
-        }
-
-        .loader-progress {
-            position: absolute;
-            bottom: 15%;
-            left: 10%;
-            right: 10%;
-            height: 1px;
-            background: rgba(253, 249, 236, 0.1);
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: #8C6A53; /* Earth Gold */
-            width: 0%;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            #page-preloader { display: none !important; }
-        }
-
         /* Site Content Styles */
         .hero-image {
             background-image: linear-gradient(rgba(28, 63, 43, 0.2), rgba(28, 63, 43, 0.4)), url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=1200');
@@ -129,31 +59,22 @@
 </head>
 <body class="antialiased text-[#2D3A33] font-sans">
 
-    <!-- Unique Kinetic Typography Preloader -->
-    <div id="page-preloader" role="status" aria-label="Loading TerraMarket">
-        <div class="loader-shutter">
-            <div class="shutter-row"></div>
-            <div class="shutter-row"></div>
-            <div class="shutter-row"></div>
-        </div>
-        
-        <div class="loader-content-wrap">
-            <h1 class="kinetic-text">
-                <span>T</span>
-                <span>E</span>
-                <span>R</span>
-                <span>R</span>
-                <span>A</span>
-            </h1>
-        </div>
-
-        <div class="loader-progress">
-            <div class="progress-bar"></div>
+    <!-- 3D Loading Screen Elements -->
+    <div id="loading-overlay">
+        <div id="ui-wrapper">
+            <div id="loading-text">Sowing the seeds... 0%</div>
+            <div id="loading-bar-container">
+                <div id="loading-bar"></div>
+            </div>
+            <button id="enter-btn" class="hidden">EXPLORE MARKETPLACE</button>
         </div>
     </div>
+    <canvas id="bg"></canvas>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Content Wrapper for Reveal -->
-    <div id="site-content" style="opacity: 0;">
+    <div id="site-content">
     <!-- NAV -->
     <nav class="relative z-50 container mx-auto px-6 py-8 flex justify-between items-center">
         <div class="flex items-center gap-2 text-forest">
@@ -254,8 +175,8 @@
 
     <!-- SCENERY STRIP -->
     <section class="h-96 w-full relative overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1920" class="w-full h-full object-cover" alt="Nature Panorama">
-        <div class="absolute inset-0 bg-forest/20 backdrop-blur-[2px]"></div>
+        <canvas id="scenery-bg" class="w-full h-full"></canvas>
+        <div class="absolute inset-0 bg-forest/20 backdrop-blur-[2px] pointer-events-none"></div>
     </section>
 
     <!-- FOOTER -->
@@ -270,66 +191,6 @@
     </footer>
     </div> <!-- End site-content -->
 
-    <script>
-        // GSAP Animation Sequence for Kinetic Typography
-        const tl = gsap.timeline({
-            defaults: { ease: "expo.inOut" }
-        });
-
-        window.addEventListener('load', function() {
-            // 1. Progress Bar Loading
-            tl.to('.progress-bar', {
-                width: '100%',
-                duration: 2,
-                ease: "power2.inOut"
-            })
-            // 2. Text Stagger In
-            .to('.kinetic-text span', {
-                y: 0,
-                duration: 1.2,
-                stagger: 0.1,
-                ease: "expo.out"
-            }, "-=1.5")
-            // 3. Text Stagger Out
-            .to('.kinetic-text span', {
-                y: '-100%',
-                duration: 1,
-                stagger: 0.05,
-                delay: 0.5,
-                ease: "expo.in"
-            })
-            // 4. Shutter Reveal
-            .to('.shutter-row', {
-                scaleX: 0,
-                duration: 1.5,
-                stagger: 0.15,
-                ease: "expo.inOut"
-            }, "-=0.5")
-            // 5. Cleanup
-            .to('#page-preloader', {
-                display: 'none',
-                duration: 0.1
-            })
-            // 6. Reveal site-content
-            .to('#site-content', {
-                opacity: 1,
-                duration: 0.1
-            }, "-=1.2")
-            .from('nav', {
-                y: -50,
-                opacity: 0,
-                duration: 1.5,
-                ease: "expo.out"
-            }, "-=1")
-            .from('.hero-content > *', {
-                y: 60,
-                opacity: 0,
-                duration: 1.5,
-                stagger: 0.1,
-                ease: "expo.out"
-            }, "-=1.3");
-        });
-    </script>
-
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </body>
 </html>

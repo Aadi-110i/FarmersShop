@@ -1,0 +1,198 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  background-color: #000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+}
+
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: opacity 1s ease-out, visibility 1s;
+}
+
+#ui-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+#enter-btn {
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  letter-spacing: 0.3rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  opacity: 0;
+  visibility: hidden;
+  margin-top: 1rem;
+}
+
+#enter-btn.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#enter-btn:hover {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 0 20px #fff;
+}
+
+#main-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  color: #fff;
+  transition: opacity 2s ease;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.2); /* Subtle dimming to make UI pop */
+}
+
+#main-content.visible {
+  opacity: 1;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 5%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.2rem;
+  color: #4ade80; /* Vibrant green for Agri theme */
+}
+
+.nav-links {
+  display: flex;
+  gap: 3rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.1rem;
+}
+
+.nav-links span {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.nav-links span:hover {
+  opacity: 1;
+}
+
+.dashboard {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5%;
+}
+
+.header-content {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.header-content h1 {
+  font-size: 3.5rem;
+  letter-spacing: 0.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.header-content p {
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+.product-grid {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 2rem;
+  flex: 1;
+  transition: transform 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #4ade80;
+}
+
+.tag {
+  display: inline-block;
+  background: #4ade80;
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  margin-bottom: 1rem;
+}
+
+.product-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-card p {
+  font-size: 0.9rem;
+  opacity: 0.6;
+  margin-bottom: 2rem;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.hidden {
+  display: none !important;
+}

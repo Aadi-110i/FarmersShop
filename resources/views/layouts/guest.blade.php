@@ -53,6 +53,19 @@
         </style>
     </head>
     <body class="antialiased text-[#2D3A33]">
+        <!-- 3D Loading Screen Elements -->
+        <div id="loading-overlay">
+            <div id="ui-wrapper">
+                <div id="loading-text">Sowing the seeds... 0%</div>
+                <div id="loading-bar-container">
+                    <div id="loading-bar"></div>
+                </div>
+                <button id="enter-btn" class="hidden">EXPLORE MARKETPLACE</button>
+            </div>
+        </div>
+        <canvas id="bg"></canvas>
+
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         
         <div class="min-h-screen flex flex-col md:flex-row overflow-hidden">
             

@@ -49,7 +49,6 @@
 
             body {
                 background-color: #FDF9EC;
-                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
             }
 
             .font-heading {
@@ -63,6 +62,18 @@
         </style>
     </head>
     <body class="font-sans antialiased">
+        <!-- 3D Loading Screen Elements -->
+        <div id="loading-overlay">
+            <div id="ui-wrapper">
+                <div id="loading-text">Sowing the seeds... 0%</div>
+                <div id="loading-bar-container">
+                    <div id="loading-bar"></div>
+                </div>
+                <button id="enter-btn" class="hidden">EXPLORE MARKETPLACE</button>
+            </div>
+        </div>
+        <canvas id="bg"></canvas>
+
         <div class="min-h-screen">
             @include('layouts.navigation')
 
