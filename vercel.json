@@ -23,11 +23,19 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://farmers-shop.vercel.app",
+        "APP_URL": "https://farmers-shop-main.vercel.app",
         "VERCEL": "1",
         "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
         "CACHE_STORE": "array",
         "SESSION_DRIVER": "cookie",
-        "LOG_CHANNEL": "stderr"
+        "LOG_CHANNEL": "stderr",
+        "DB_CONNECTION": "pgsql",
+        "DB_HOST": "ep-plain-field-aqp7gyqk.c-8.us-east-1.aws.neon.tech",
+        "DB_PORT": "5432",
+        "DB_DATABASE": "neondb",
+        "DB_USERNAME": "neondb_owner",
+        "DB_SSLMODE": "require",
+        "QUEUE_CONNECTION": "sync",
+        "FILESYSTEM_DISK": "local"
     }
 }
