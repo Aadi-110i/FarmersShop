@@ -31,9 +31,15 @@
                             <td class="px-10 py-8">
                                 <div class="flex items-center gap-6">
                                     <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-md flex-shrink-0 border-2 border-white">
-                                        <img src="{{ $product->image_url ?? 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=200' }}" 
+                                        @php
+                                            $imgSrc = str_starts_with($product->image_url ?? '', '/')
+                                                ? asset($product->image_url)
+                                                : ($product->image_url ?? 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=200');
+                                        @endphp
+                                        <img src="{{ $imgSrc }}" 
                                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                                             alt="{{ $product->name }}">
+                                             alt="{{ $product->name }}"
+                                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=200';">
                                     </div>
                                     <div>
                                         <p class="font-heading text-xl text-forest">{{ $product->name }}</p>

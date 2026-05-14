@@ -40,7 +40,12 @@
             <div class="group bg-white/40 backdrop-blur-md rounded-[3rem] border border-forest/5 overflow-hidden hover:shadow-2xl transition-all duration-700 flex flex-col h-full premium-shadow">
                 <!-- Product Photography -->
                 <div class="h-80 relative overflow-hidden bg-forest/5">
-                    <img src="{{ $product->image_url }}" 
+                    @php
+                        $imgSrc = str_starts_with($product->image_url, '/')
+                            ? asset($product->image_url)
+                            : $product->image_url;
+                    @endphp
+                    <img src="{{ $imgSrc }}" 
                          class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" 
                          alt="{{ $product->name }}"
                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800';">

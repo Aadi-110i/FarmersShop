@@ -23,6 +23,7 @@
                             <option value="seeds">Seeds</option>
                             <option value="fertilizers">Fertilizers</option>
                             <option value="tools">Tools</option>
+                            <option value="manures">Manures</option>
                         </select>
                         <x-input-error :messages="$errors->get('category')" class="mt-2" />
                     </div>
@@ -39,6 +40,13 @@
                         <x-input-label for="stock_quantity" :value="__('Stock Quantity')" class="text-xs font-bold uppercase tracking-wider text-gray-500" />
                         <x-text-input id="stock_quantity" class="block mt-1 w-full bg-[var(--sage-green)]/20 border-[var(--sage-green)] focus:ring-[var(--forest-green)] focus:border-[var(--forest-green)] rounded-2xl" type="number" name="stock_quantity" :value="old('stock_quantity')" required />
                         <x-input-error :messages="$errors->get('stock_quantity')" class="mt-2" />
+                    </div>
+
+                    <!-- Image URL -->
+                    <div class="md:col-span-2">
+                        <x-input-label for="image_url" :value="__('Image URL (Optional)')" class="text-xs font-bold uppercase tracking-wider text-gray-500" />
+                        <x-text-input id="image_url" class="block mt-1 w-full bg-[var(--sage-green)]/20 border-[var(--sage-green)] focus:ring-[var(--forest-green)] focus:border-[var(--forest-green)] rounded-2xl" type="url" name="image_url" :value="old('image_url')" placeholder="https://example.com/image.jpg" />
+                        <x-input-error :messages="$errors->get('image_url')" class="mt-2" />
                     </div>
 
                     <!-- Description -->

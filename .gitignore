@@ -22,3 +22,9 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Agent files
+.agents/
+.belt/
+belt_input.json
+skills-lock.json

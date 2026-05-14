@@ -15,4 +15,24 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+    ->registered(function ($app) {
+        if (env('VERCEL')) {
+            $app->useStoragePath('/tmp/storage');
+            
+            // Ensure necessary directories exist in /tmp
+            $directories = [
+                '/tmp/storage/framework/views',
+                '/tmp/storage/framework/cache',
+                '/tmp/storage/framework/sessions',
+                '/tmp/storage/logs',
+            ];
+
+            foreach ($directories as $directory) {
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0755, true);
+                }
+            }
+        }
+    })
+    ->create();

@@ -67,7 +67,7 @@
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="pt-28 pb-10">
+                <header class="pt-12 pb-10">
                     <div class="max-w-7xl mx-auto px-6 lg:px-8">
                         <h2 class="font-heading font-bold text-5xl text-[var(--forest-green)] leading-tight">
                             {{ $header }}
@@ -77,9 +77,11 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="max-w-7xl mx-auto px-6 lg:px-8 pb-12">
+            <main class="max-w-7xl mx-auto px-6 lg:px-8 pb-32">
                 {{ $slot }}
             </main>
+
+            <x-noble-taskbar />
         </div>
     </body>
 </html>

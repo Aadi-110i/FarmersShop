@@ -157,10 +157,9 @@
     <div id="site-content" style="opacity: 0;">
     <!-- NAV -->
     <nav class="relative z-50 container mx-auto px-6 py-8 flex justify-between items-center">
-        <div class="flex items-center gap-2 text-forest">
-            <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-15h2v6h-2V7zm0 8h2v2h-2v-2z" opacity="0.3"/><path d="M11 21.9v-2.1c-4.4-.5-8-4.1-8.5-8.5H.4c.5 5.5 4.9 9.9 10.6 10.6zm2 0c5.7-.7 10.1-5.1 10.6-10.6h-2.1c-.5 4.4-4.1 8-8.5 8.5v2.1zM2.5 11h2.1c.5-4.4 4.1-8 8.5-8.5V.4C7.4 1.1 3 5.5 2.5 11zm19 0c-.5-5.5-4.9-9.9-10.6-10.6v2.1c4.4.5 8 4.1 8.5 8.5h2.1z"/></svg>
-            <span class="font-heading font-bold text-3xl tracking-tight">TerraMarket</span>
-        </div>
+        <a href="/" class="group">
+            <x-application-logo />
+        </a>
         
         <div class="space-x-8 flex items-center">
             @auth
@@ -288,9 +287,27 @@
     <!-- FOOTER -->
     <footer class="bg-forest py-20 relative overflow-hidden">
         <div class="container mx-auto px-6 text-center relative z-10">
-            <div class="flex items-center justify-center gap-2 text-sunlight mb-8">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-15h2v6h-2V7zm0 8h2v2h-2v-2z" opacity="0.3"/><path d="M11 21.9v-2.1c-4.4-.5-8-4.1-8.5-8.5H.4c.5 5.5 4.9 9.9 10.6 10.6zm2 0c5.7-.7 10.1-5.1 10.6-10.6h-2.1c-.5 4.4-4.1 8-8.5 8.5v2.1zM2.5 11h2.1c.5-4.4 4.1-8 8.5-8.5V.4C7.4 1.1 3 5.5 2.5 11zm19 0c-.5-5.5-4.9-9.9-10.6-10.6v2.1c4.4.5 8 4.1 8.5 8.5h2.1z"/></svg>
-                <span class="font-heading font-bold text-2xl tracking-tight">TerraMarket</span>
+            <div class="flex items-center justify-center mb-12">
+                <a href="/" class="group">
+                    <div class="flex items-center gap-4">
+                        <div class="relative w-14 h-14 flex items-center justify-center">
+                            <div class="absolute inset-0 rounded-2xl bg-white/10 border border-white/20 rotate-45 group-hover:rotate-90 transition-transform duration-700"></div>
+                            <svg class="relative w-10 h-10 text-white group-hover:scale-110 transition-transform duration-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 22C12 22 20 18 20 12C20 6 12 2 12 2C12 2 4 6 4 12C4 18 12 22 12 22Z" fill="currentColor" fill-opacity="0.1"/>
+                                <path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M12 12L17 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sunlight/40"/>
+                                <path d="M12 16L16 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sunlight/40"/>
+                                <path d="M12 12L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sunlight/40"/>
+                                <path d="M12 16L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sunlight/40"/>
+                                <path d="M12 2C12 2 4 6 4 12C4 18 12 22 12 22C12 22 20 18 20 12C20 6 12 2 12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col text-left">
+                            <span class="font-heading font-black text-3xl tracking-tighter text-white leading-none uppercase">Terra</span>
+                            <span class="font-sans font-bold text-[11px] tracking-[0.4em] text-sunlight/50 leading-none uppercase ml-0.5">Market</span>
+                        </div>
+                    </div>
+                </a>
             </div>
             <p class="text-sage opacity-50 text-sm">© 2026 TerraMarket Agricultural Marketplace. All Rights Reserved.</p>
         </div>

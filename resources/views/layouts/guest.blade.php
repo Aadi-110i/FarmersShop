@@ -65,11 +65,21 @@
                 <div class="absolute inset-0 bg-forest/20 backdrop-blur-[1px]"></div>
                 
                 <div class="absolute inset-0 p-12 flex flex-col justify-between">
-                    <a href="/" class="flex items-center gap-3 text-white group">
-                        <div class="bg-white/20 backdrop-blur-md p-2 rounded-xl group-hover:bg-white/30 transition-all">
-                            <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-15h2v6h-2V7zm0 8h2v2h-2v-2z" opacity="0.3"/><path d="M11 21.9v-2.1c-4.4-.5-8-4.1-8.5-8.5H.4c.5 5.5 4.9 9.9 10.6 10.6zm2 0c5.7-.7 10.1-5.1 10.6-10.6h-2.1c-.5 4.4-4.1 8-8.5 8.5v2.1zM2.5 11h2.1c.5-4.4 4.1-8 8.5-8.5V.4C7.4 1.1 3 5.5 2.5 11zm19 0c-.5-5.5-4.9-9.9-10.6-10.6v2.1c4.4.5 8 4.1 8.5 8.5h2.1z"/></svg>
+                    <a href="/" class="group">
+                        <div class="flex items-center gap-4">
+                            <div class="relative w-14 h-14 flex items-center justify-center">
+                                <div class="absolute inset-0 rounded-2xl bg-white/20 backdrop-blur-md border border-white/10 rotate-45 group-hover:rotate-90 transition-transform duration-700"></div>
+                                <svg class="relative w-8 h-8 text-white group-hover:scale-110 transition-transform duration-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 4V20M12 4L8 8M12 4L16 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-50"/>
+                                    <path d="M7 14C7 14 8.5 12 12 12C15.5 12 17 14 17 14V17C17 18.6569 15.6569 20 14 20H10C8.34315 20 7 18.6569 7 17V14Z" fill="currentColor" class="text-sunlight/80"/>
+                                    <path d="M12 12V8M12 8L10 10M12 8L14 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="flex flex-col -gap-1">
+                                <span class="font-heading font-black text-3xl tracking-tighter text-white leading-none uppercase">Terra</span>
+                                <span class="font-sans font-bold text-[11px] tracking-[0.4em] text-sunlight/60 leading-none uppercase ml-0.5">Market</span>
+                            </div>
                         </div>
-                        <span class="font-heading font-bold text-4xl tracking-tight drop-shadow-lg">TerraMarket</span>
                     </a>
                     
                     <div class="max-w-lg">
@@ -84,9 +94,8 @@
                 <div class="py-12 w-full max-w-sm mx-auto">
                     <!-- Mobile Logo -->
                     <div class="md:hidden flex justify-center mb-8">
-                        <a href="/" class="flex items-center gap-2 text-forest">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-15h2v6h-2V7zm0 8h2v2h-2v-2z" opacity="0.3"/><path d="M11 21.9v-2.1c-4.4-.5-8-4.1-8.5-8.5H.4c.5 5.5 4.9 9.9 10.6 10.6zm2 0c5.7-.7 10.1-5.1 10.6-10.6h-2.1c-.5 4.4-4.1 8-8.5 8.5v2.1zM2.5 11h2.1c.5-4.4 4.1-8 8.5-8.5V.4C7.4 1.1 3 5.5 2.5 11zm19 0c-.5-5.5-4.9-9.9-10.6-10.6v2.1c4.4.5 8 4.1 8.5 8.5h2.1z"/></svg>
-                            <span class="font-heading font-bold text-2xl tracking-tight">Terra</span>
+                        <a href="/" class="group">
+                            <x-application-logo />
                         </a>
                     </div>
 

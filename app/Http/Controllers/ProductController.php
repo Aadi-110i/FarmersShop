@@ -31,12 +31,17 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::user()->role !== 'supplier') {
+            return redirect()->route('products.index')->with('error', 'Only suppliers can add products.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|in:seeds,fertilizers,tools',
+            'category' => 'required|in:seeds,fertilizers,tools,manures',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
+            'image_url' => 'nullable|url',
         ]);
 
         Auth::user()->products()->create($request->all());
@@ -57,6 +62,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'quantity' => 'required|integer|min:1|max:' . $product->stock_quantity,
+            'payment_method' => 'nullable|string',
         ]);
 
         Order::create([
@@ -65,6 +71,7 @@ class ProductController extends Controller
             'quantity' => $request->quantity,
             'total_price' => $product->price * $request->quantity,
             'status' => 'pending',
+            'payment_method' => $request->payment_method ?? 'Cash on Delivery',
         ]);
 
         $product->decrement('stock_quantity', $request->quantity);
