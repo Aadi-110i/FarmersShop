@@ -12,10 +12,9 @@ README.md
 /storage/framework/views/*
 /storage/logs/*
 
-# Large source images in root
-cotton.png
-grain.png
-grainop.png
-moqshss4.png
-mustard.png
-
+# Large source images in root only (use full paths!)
+/cotton.png
+/grain.png
+/grainop.png
+/moqshss4.png
+/mustard.png
