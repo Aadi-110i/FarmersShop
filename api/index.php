@@ -5,7 +5,7 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-// Bootstrap storage directories in /tmp for Vercel's read-only filesystem
+// Bootstrap all writable directories in /tmp for Vercel's read-only filesystem
 $tmpDirs = [
     '/tmp/storage',
     '/tmp/storage/framework',
@@ -16,6 +16,7 @@ $tmpDirs = [
     '/tmp/storage/logs',
     '/tmp/storage/app',
     '/tmp/storage/app/public',
+    '/tmp/cache',
 ];
 
 foreach ($tmpDirs as $dir) {

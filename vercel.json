@@ -36,6 +36,11 @@
         "DB_USERNAME": "neondb_owner",
         "DB_SSLMODE": "require",
         "QUEUE_CONNECTION": "sync",
-        "FILESYSTEM_DISK": "local"
+        "FILESYSTEM_DISK": "local",
+        "APP_SERVICES_CACHE": "/tmp/cache/services.php",
+        "APP_PACKAGES_CACHE": "/tmp/cache/packages.php",
+        "APP_CONFIG_CACHE": "/tmp/cache/config.php",
+        "APP_ROUTES_CACHE": "/tmp/cache/routes-v7.php",
+        "APP_EVENTS_CACHE": "/tmp/cache/events.php"
     }
 }
