@@ -234,21 +234,25 @@
                 @php 
                     $products = \App\Models\Product::with('user')->take(4)->get(); 
                     $image_map = [
-                        'Basmati' => asset('images/products/grainop.png'),
-                        'Wheat' => asset('images/products/grain.png'),
-                        'Cotton' => asset('images/products/cotton.png'),
-                        'Mustard' => asset('images/products/mustard.png'),
-                        'default' => asset('images/products/default.jpg')
+                        'basmati' => asset('images/products/seed_basmati.png'),
+                        'wheat' => asset('images/products/seed_wheat.png'),
+                        'cotton' => asset('images/products/seed_cotton.png'),
+                        'mustard' => asset('images/products/seed_mustard.png'),
+                        'corn' => asset('images/products/seed_corn.png'),
+                        'tomato' => asset('images/products/seed_tomato.png'),
+                        'default' => 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop'
                     ];
                 @endphp
                 @foreach($products as $product)
                     @php
                         $name = strtolower($product->name);
                         $img_url = $image_map['default'];
-                        if (str_contains($name, 'basmati')) $img_url = $image_map['Basmati'];
-                        elseif (str_contains($name, 'wheat')) $img_url = $image_map['Wheat'];
-                        elseif (str_contains($name, 'cotton')) $img_url = $image_map['Cotton'];
-                        elseif (str_contains($name, 'mustard')) $img_url = $image_map['Mustard'];
+                        foreach ($image_map as $key => $url) {
+                            if ($key !== 'default' && str_contains($name, $key)) {
+                                $img_url = $url;
+                                break;
+                            }
+                        }
                     @endphp
                     <div class="bg-white/5 border border-white/10 rounded-[2.5rem] hover:bg-white/10 transition-all group overflow-hidden relative flex flex-col">
                         <!-- Product Image -->

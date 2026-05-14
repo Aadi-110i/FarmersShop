@@ -22,7 +22,7 @@ function setup3DScene(canvas, options = {}) {
     // --- Textures ---
     const manager = options.manager || new THREE.LoadingManager();
     const textureLoader = new THREE.TextureLoader(manager);
-    const imageTexture = textureLoader.load('/images/moqshss4.png');
+    const imageTexture = textureLoader.load('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=2048');
     imageTexture.mapping = THREE.EquirectangularReflectionMapping;
 
     scene.background = imageTexture;
