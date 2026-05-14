@@ -3,7 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build && mkdir -p dist && cp -rf public/* dist/",
+        "build": "vite build && mkdir -p dist/build && mkdir -p dist/images && cp -rf public/build dist/ && cp -rf public/images dist/ && cp public/favicon.ico dist/ && cp public/robots.txt dist/",
         "dev": "vite"
     },
     "devDependencies": {
