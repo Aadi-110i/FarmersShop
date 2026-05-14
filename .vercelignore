@@ -1,0 +1,21 @@
+node_modules
+/public/build
+/tests
+/3js
+phpunit.xml
+.editorconfig
+.gitattributes
+README.md
+*.ps1
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+
+# Large source images in root
+cotton.png
+grain.png
+grainop.png
+moqshss4.png
+mustard.png
+
