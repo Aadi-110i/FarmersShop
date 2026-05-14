@@ -30,7 +30,7 @@
         "SESSION_DRIVER": "cookie",
         "LOG_CHANNEL": "stderr",
         "DB_CONNECTION": "pgsql",
-        "DB_HOST": "ep-plain-field-aqp7gyqk.c-8.us-east-1.aws.neon.tech",
+        "DB_HOST": "ep-plain-field-aqp7gyqk.c-8.us-east-1.aws.neon.tech;options='endpoint=ep-plain-field-aqp7gyqk'",
         "DB_PORT": "5432",
         "DB_DATABASE": "neondb",
         "DB_USERNAME": "neondb_owner",
