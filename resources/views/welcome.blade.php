@@ -265,16 +265,16 @@
                     }
 
                     $image_map = [
-                        'sprayer' => asset('images/products/sprayer.png'),
-                        'seeder' => asset('images/products/seeder.png'),
-                        'rake' => asset('images/products/rake.png'),
-                        'pickaxe' => asset('images/products/pickaxe.png'),
-                        'basmati' => asset('images/products/seed_basmati.png'),
-                        'wheat' => asset('images/products/seed_wheat.png'),
-                        'cotton' => asset('images/products/seed_cotton.png'),
-                        'mustard' => asset('images/products/seed_mustard.png'),
-                        'corn' => asset('images/products/seed_corn.png'),
-                        'tomato' => asset('images/products/seed_tomato.png'),
+                        'sprayer' => '/images/products/sprayer.png',
+                        'seeder' => '/images/products/seeder.png',
+                        'rake' => '/images/products/rake.png',
+                        'pickaxe' => '/images/products/pickaxe.png',
+                        'basmati' => '/images/products/seed_basmati.png',
+                        'wheat' => '/images/products/seed_wheat.png',
+                        'cotton' => '/images/products/seed_cotton.png',
+                        'mustard' => '/images/products/seed_mustard.png',
+                        'corn' => '/images/products/seed_corn.png',
+                        'tomato' => '/images/products/seed_tomato.png',
                         'default' => 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop'
                     ];
                 @endphp
