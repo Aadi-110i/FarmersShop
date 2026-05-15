@@ -27,6 +27,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/cart/{product}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{product}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+    // Review Routes
+    Route::post('/products/{product}/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
+
+    // Simulated Checkout
+    Route::get('/products/{product}/checkout', function(App\Models\Product $product) {
+        return view('products.checkout', compact('product'));
+    })->name('products.checkout');
 });
 
 Route::middleware('auth')->group(function () {

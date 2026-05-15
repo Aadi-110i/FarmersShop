@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $product->load('user');
+        $product->load(['user', 'reviews.user']);
         return view('products.show', compact('product'));
     }
 

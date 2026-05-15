@@ -78,6 +78,19 @@
 
             <!-- Page Content -->
             <main class="max-w-7xl mx-auto px-6 lg:px-8 pb-32">
+                @if(session('success'))
+                    <div class="mb-12 bg-forest text-gold px-10 py-6 rounded-[2rem] shadow-2xl flex items-center justify-between animate-fade-in border border-gold/20">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <p class="text-[10px] font-black uppercase tracking-[0.3em]">{{ session('success') }}</p>
+                        </div>
+                        <button onclick="this.parentElement.remove()" class="text-gold/40 hover:text-gold transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                @endif
                 {{ $slot }}
             </main>
 
