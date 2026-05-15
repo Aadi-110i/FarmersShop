@@ -107,10 +107,11 @@
         
         <!-- Left Pane: The Magazine Cover -->
         <div class="lg:w-7/12 relative min-h-[50vh] lg:min-h-screen overflow-hidden group">
-            <!-- Full Bleed Image -->
-            <img src="{{ asset('images/11.jpg') }}" 
-                 alt="The Land" 
-                 class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-110 transition-transform duration-[4s] ease-out">
+            <!-- Full Bleed Video Background -->
+            <video autoplay loop muted playsinline 
+                   class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-105 transition-transform duration-[4s] ease-out">
+                <source src="{{ asset('videos/clouds.mp4') }}" type="video/mp4">
+            </video>
             
             <!-- Dark Overlay for Readability -->
             <div class="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-forest/30"></div>
