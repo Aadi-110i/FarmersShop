@@ -1,0 +1,24 @@
+{
+  "_three-D5H6h65Q.js": {
+    "file": "assets/three-D5H6h65Q.js",
+    "name": "three"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-CJxX72wF.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CTzc2kvk.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_three-D5H6h65Q.js"
+    ]
+  }
+}
