@@ -241,24 +241,32 @@
                                 'name' => '16L Knapsack Sprayer',
                                 'price' => 2200.00,
                                 'description' => 'Durable backpack sprayer for crop protection.',
+                                'category' => 'Tools',
+                                'stock_quantity' => 12,
                                 'user' => (object)['name' => 'Terra Systems']
                             ],
                             (object)[
                                 'name' => 'Manual Row Seeder',
                                 'price' => 3500.00,
                                 'description' => 'Precise manual tool for uniform seed sowing.',
+                                'category' => 'Tools',
+                                'stock_quantity' => 5,
                                 'user' => (object)['name' => 'Terra Systems']
                             ],
                             (object)[
                                 'name' => 'Iron Garden Rake',
                                 'price' => 350.00,
                                 'description' => 'Iron 12-tooth strong rake for field leveling.',
+                                'category' => 'Tools',
+                                'stock_quantity' => 45,
                                 'user' => (object)['name' => 'Terra Systems']
                             ],
                             (object)[
                                 'name' => 'Heavy Ground Pickaxe',
                                 'price' => 750.00,
                                 'description' => 'Double-headed pickaxe for hard rocky soil.',
+                                'category' => 'Tools',
+                                'stock_quantity' => 18,
                                 'user' => (object)['name' => 'Terra Systems']
                             ]
                         ]);
