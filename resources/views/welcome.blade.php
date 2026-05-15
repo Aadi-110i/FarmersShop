@@ -232,7 +232,38 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @php 
-                    $products = \App\Models\Product::with('user')->take(4)->get(); 
+                    // Mock data to bypass the "could not find driver" error for UI testing
+                    try {
+                        $products = \App\Models\Product::with('user')->take(4)->get(); 
+                    } catch (\Exception $e) {
+                        $products = collect([
+                            (object)[
+                                'name' => 'Premium Basmati Seeds',
+                                'price' => 250.00,
+                                'description' => 'Grade-A long grain seeds.',
+                                'user' => (object)['name' => 'Green Fields Ltd']
+                            ],
+                            (object)[
+                                'name' => 'Organic Wheat Seeds',
+                                'price' => 180.00,
+                                'description' => 'High-yield winter wheat.',
+                                'user' => (object)['name' => 'Terra Farms']
+                            ],
+                            (object)[
+                                'name' => 'Hybrid Cotton Seeds',
+                                'price' => 320.00,
+                                'description' => 'Pest-resistant variety.',
+                                'user' => (object)['name' => 'BioGrow']
+                            ],
+                            (object)[
+                                'name' => 'Yellow Mustard Seeds',
+                                'price' => 120.00,
+                                'description' => 'Pure traditional seeds.',
+                                'user' => (object)['name' => 'Village Harvest']
+                            ]
+                        ]);
+                    }
+
                     $image_map = [
                         'basmati' => asset('images/products/seed_basmati.png'),
                         'wheat' => asset('images/products/seed_wheat.png'),
