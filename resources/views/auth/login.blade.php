@@ -105,55 +105,41 @@
     
     <div class="flex flex-col lg:flex-row min-h-screen">
         
-        <!-- Left Pane: The Magazine Cover -->
-        <div class="lg:w-7/12 relative min-h-[50vh] lg:min-h-screen overflow-hidden group">
+        <!-- Left Pane: The Atmospheric Visual -->
+        <div class="lg:w-7/12 relative min-h-[50vh] lg:min-h-screen overflow-hidden group bg-forest">
             <!-- Full Bleed Video Background -->
             <video autoplay loop muted playsinline 
-                   class="absolute inset-0 w-full h-full object-cover grayscale-[20%] group-hover:scale-105 transition-transform duration-[4s] ease-out">
+                   class="absolute inset-0 w-full h-full object-cover opacity-80 transition-opacity duration-1000">
                 <source src="{{ asset('videos/clouds.mp4') }}" type="video/mp4">
             </video>
             
-            <!-- Dark Overlay for Readability -->
-            <div class="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-forest/30"></div>
+            <!-- Soft Atmospheric Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-forest/60 via-transparent to-forest/20"></div>
 
-            <!-- Magazine UI -->
-            <div class="absolute inset-0 p-8 lg:p-16 flex flex-col justify-between text-sunlight pointer-events-none">
-                <!-- Top Nav / Branding -->
-                <div class="flex justify-between items-start animate-reveal">
-                    <div>
-                        <span class="block font-heading font-black text-5xl lg:text-7xl leading-none uppercase tracking-tighter">Terra</span>
-                        <span class="block text-[10px] font-bold uppercase tracking-[0.5em] mt-2 opacity-60">Volume 04 // Spring Harvest</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="block text-[10px] font-bold uppercase tracking-widest italic border-b border-sunlight/30 pb-1">Special Edition</span>
-                        <span class="block text-[8px] mt-1 opacity-40 uppercase tracking-widest">Est. 2026</span>
-                    </div>
-                </div>
-
-                <!-- Center Headlines -->
-                <div class="max-w-xl animate-reveal delay-1">
-                    <h2 class="text-5xl lg:text-8xl font-heading font-black leading-[0.9] mb-8 drop-shadow-2xl">
-                        The <span class="italic text-earth">Future</span> <br> of the Field.
+            <!-- Ethereal UI Layer -->
+            <div class="absolute inset-0 p-12 lg:p-24 flex flex-col justify-center items-center text-center text-sunlight pointer-events-none">
+                
+                <div class="animate-reveal">
+                    <span class="inline-block text-[10px] font-bold uppercase tracking-[0.8em] text-sunlight/40 mb-8">Terra Market Presents</span>
+                    
+                    <h2 class="text-6xl lg:text-[8rem] font-heading italic font-light leading-none tracking-tight mb-10 drop-shadow-xl">
+                        Growth, <br>
+                        <span class="opacity-80">Unbound.</span>
                     </h2>
-                    <div class="flex items-center gap-6">
-                        <div class="w-12 h-0.5 bg-earth"></div>
-                        <p class="text-sm font-medium tracking-wide opacity-80 max-w-xs">
-                            An exclusive look into India's evolving agricultural marketplace.
-                        </p>
-                    </div>
+                    
+                    <div class="w-24 h-px bg-sunlight/30 mx-auto mb-10"></div>
+                    
+                    <p class="text-sm lg:text-lg font-medium tracking-widest opacity-60 max-w-lg mx-auto leading-relaxed italic">
+                        "Where the earth meets the infinite sky, <br> your harvest begins."
+                    </p>
                 </div>
 
-                <!-- Bottom Captions -->
-                <div class="flex justify-between items-end animate-reveal delay-2">
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4">
-                            <span class="text-[9px] font-black px-2 py-1 bg-earth text-forest">NEW</span>
-                            <span class="text-[10px] font-bold uppercase tracking-widest italic">Sustainable Sowing</span>
-                        </div>
-                        <p class="text-[9px] font-medium opacity-40 uppercase tracking-[0.2em]">01. Sourcing // 02. Scaling // 03. Success</p>
-                    </div>
-                    <div class="text-right hidden lg:block">
-                        <span class="text-[3rem] font-heading font-black opacity-20 leading-none">04</span>
+                <!-- Subtle Brand Signature -->
+                <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-reveal delay-2">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-px bg-sunlight/20"></div>
+                        <span class="text-[9px] font-bold uppercase tracking-[0.4em] opacity-30 whitespace-nowrap">Est. MMXXVI // Premium Source</span>
+                        <div class="w-8 h-px bg-sunlight/20"></div>
                     </div>
                 </div>
             </div>
