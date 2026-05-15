@@ -290,19 +290,13 @@
                     @php
                         $name = strtolower($product->name);
                         
-                        // Override logic to use new assets regardless of database URL
+                        // Override logic for new tools
                         $override_map = [
                             'sprayer' => '/images/products/sprayer.png',
                             'seeder' => '/images/products/seeder.png',
                             'rake' => '/images/products/rake.png',
                             'pickaxe' => '/images/products/pickaxe.png',
-                            'spade' => '/images/products/sprayer.png', // Fallback for spade to a new asset
-                            'basmati' => '/images/products/seed_basmati.png',
-                            'wheat' => '/images/products/seed_wheat.png',
-                            'cotton' => '/images/products/seed_cotton.png',
-                            'mustard' => '/images/products/seed_mustard.png',
-                            'corn' => '/images/products/seed_corn.png',
-                            'tomato' => '/images/products/seed_tomato.png',
+                            'spade' => '/images/products/sprayer.png',
                         ];
 
                         $img_url = null;

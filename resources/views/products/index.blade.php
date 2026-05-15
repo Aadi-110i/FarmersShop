@@ -44,12 +44,6 @@
                     'rake' => '/images/products/rake.png',
                     'pickaxe' => '/images/products/pickaxe.png',
                     'spade' => '/images/products/sprayer.png',
-                    'basmati' => '/images/products/seed_basmati.png',
-                    'wheat' => '/images/products/seed_wheat.png',
-                    'cotton' => '/images/products/seed_cotton.png',
-                    'mustard' => '/images/products/seed_mustard.png',
-                    'corn' => '/images/products/seed_corn.png',
-                    'tomato' => '/images/products/seed_tomato.png',
                 ];
 
                 $name = strtolower($product->name);
