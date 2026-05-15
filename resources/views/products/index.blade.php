@@ -43,6 +43,7 @@
                     'seeder' => '/images/products/seeder.png',
                     'rake' => '/images/products/rake.png',
                     'pickaxe' => '/images/products/pickaxe.png',
+                    'spade' => '/images/products/sprayer.png',
                     'basmati' => '/images/products/seed_basmati.png',
                     'wheat' => '/images/products/seed_wheat.png',
                     'cotton' => '/images/products/seed_cotton.png',

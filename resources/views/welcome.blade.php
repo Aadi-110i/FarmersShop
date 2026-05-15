@@ -281,12 +281,32 @@
                 @foreach($products as $product)
                     @php
                         $name = strtolower($product->name);
-                        $img_url = $image_map['default'];
-                        foreach ($image_map as $key => $url) {
-                            if ($key !== 'default' && str_contains($name, $key)) {
+                        
+                        // Override logic to use new assets regardless of database URL
+                        $override_map = [
+                            'sprayer' => '/images/products/sprayer.png',
+                            'seeder' => '/images/products/seeder.png',
+                            'rake' => '/images/products/rake.png',
+                            'pickaxe' => '/images/products/pickaxe.png',
+                            'spade' => '/images/products/sprayer.png', // Fallback for spade to a new asset
+                            'basmati' => '/images/products/seed_basmati.png',
+                            'wheat' => '/images/products/seed_wheat.png',
+                            'cotton' => '/images/products/seed_cotton.png',
+                            'mustard' => '/images/products/seed_mustard.png',
+                            'corn' => '/images/products/seed_corn.png',
+                            'tomato' => '/images/products/seed_tomato.png',
+                        ];
+
+                        $img_url = null;
+                        foreach ($override_map as $key => $url) {
+                            if (str_contains($name, $key)) {
                                 $img_url = $url;
                                 break;
                             }
+                        }
+
+                        if (!$img_url) {
+                            $img_url = $image_map['default'];
                         }
                     @endphp
                     <div class="bg-white/5 border border-white/10 rounded-[2.5rem] hover:bg-white/10 transition-all group overflow-hidden relative flex flex-col">
