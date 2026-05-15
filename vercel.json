@@ -1,14 +1,21 @@
 {
     "version": 2,
-    "outputDirectory": "dist",
     "rewrites": [
         {
             "source": "/build/(.*)",
-            "destination": "/build/$1"
+            "destination": "/public/build/$1"
         },
         {
-            "source": "/(css|js|images|favicon.ico|robots.txt)/(.*)",
-            "destination": "/$1/$2"
+            "source": "/(css|js|images|videos|favicon.ico|robots.txt)/(.*)",
+            "destination": "/public/$1/$2"
+        },
+        {
+            "source": "/favicon.ico",
+            "destination": "/public/favicon.ico"
+        },
+        {
+            "source": "/robots.txt",
+            "destination": "/public/robots.txt"
         },
         {
             "source": "/(.*)",
