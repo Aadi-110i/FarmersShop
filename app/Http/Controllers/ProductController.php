@@ -21,6 +21,12 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
+    public function show(Product $product)
+    {
+        $product->load('user');
+        return view('products.show', compact('product'));
+    }
+
     public function create()
     {
         if (Auth::user()->role !== 'supplier') {

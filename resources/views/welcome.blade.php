@@ -238,51 +238,49 @@
                     } catch (\Exception $e) {
                         $products = collect([
                             (object)[
-                                'name' => '16L Knapsack Sprayer',
-                                'price' => 2200.00,
-                                'description' => 'Durable backpack sprayer for crop protection.',
-                                'category' => 'Tools',
-                                'stock_quantity' => 12,
-                                'user' => (object)['name' => 'Terra Systems']
+                                'name' => 'Premium Basmati Grains',
+                                'price' => 1250.00,
+                                'description' => 'Long-grain high-aroma rice grains for sowing.',
+                                'category' => 'Seeds',
+                                'stock_quantity' => 250,
+                                'user' => (object)['name' => 'Bharat Agri']
                             ],
                             (object)[
-                                'name' => 'Manual Row Seeder',
-                                'price' => 3500.00,
-                                'description' => 'Precise manual tool for uniform seed sowing.',
-                                'category' => 'Tools',
-                                'stock_quantity' => 5,
-                                'user' => (object)['name' => 'Terra Systems']
+                                'name' => 'Hybrid Wheat Grain OP',
+                                'price' => 850.00,
+                                'description' => 'Premium hard wheat seeds for high yield.',
+                                'category' => 'Seeds',
+                                'stock_quantity' => 450,
+                                'user' => (object)['name' => 'Bharat Agri']
                             ],
                             (object)[
-                                'name' => 'Iron Garden Rake',
-                                'price' => 350.00,
-                                'description' => 'Iron 12-tooth strong rake for field leveling.',
-                                'category' => 'Tools',
-                                'stock_quantity' => 45,
-                                'user' => (object)['name' => 'Terra Systems']
+                                'name' => 'Yellow Mustard Seeds',
+                                'price' => 450.00,
+                                'description' => 'High oil content traditional mustard seeds.',
+                                'category' => 'Seeds',
+                                'stock_quantity' => 120,
+                                'user' => (object)['name' => 'Bharat Agri']
                             ],
                             (object)[
-                                'name' => 'Heavy Ground Pickaxe',
-                                'price' => 750.00,
-                                'description' => 'Double-headed pickaxe for hard rocky soil.',
-                                'category' => 'Tools',
-                                'stock_quantity' => 18,
-                                'user' => (object)['name' => 'Terra Systems']
+                                'name' => 'Pure Cotton Seeds',
+                                'price' => 1400.00,
+                                'description' => 'Verified cotton seeds with high pest resistance.',
+                                'category' => 'Seeds',
+                                'stock_quantity' => 85,
+                                'user' => (object)['name' => 'Bharat Agri']
                             ]
                         ]);
                     }
 
                     $image_map = [
+                        'grainop' => '/images/products/grainop.png',
+                        'grain' => '/images/products/grain.png',
+                        'mustard' => '/images/products/mustard.png',
+                        'cotton' => '/images/products/cotton.png',
                         'sprayer' => '/images/products/sprayer.png',
                         'seeder' => '/images/products/seeder.png',
                         'rake' => '/images/products/rake.png',
                         'pickaxe' => '/images/products/pickaxe.png',
-                        'basmati' => '/images/products/seed_basmati.png',
-                        'wheat' => '/images/products/seed_wheat.png',
-                        'cotton' => '/images/products/seed_cotton.png',
-                        'mustard' => '/images/products/seed_mustard.png',
-                        'corn' => '/images/products/seed_corn.png',
-                        'tomato' => '/images/products/seed_tomato.png',
                         'default' => 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop'
                     ];
                 @endphp
@@ -290,8 +288,12 @@
                     @php
                         $name = strtolower($product->name);
                         
-                        // Override logic for new tools
+                        // Override logic to use new assets regardless of database URL
                         $override_map = [
+                            'grainop' => '/images/products/grainop.png',
+                            'grain' => '/images/products/grain.png',
+                            'mustard' => '/images/products/mustard.png',
+                            'cotton' => '/images/products/cotton.png',
                             'sprayer' => '/images/products/sprayer.png',
                             'seeder' => '/images/products/seeder.png',
                             'rake' => '/images/products/rake.png',
@@ -311,7 +313,7 @@
                             $img_url = $image_map['default'];
                         }
                     @endphp
-                    <div class="bg-white/5 border border-white/10 rounded-[2.5rem] hover:bg-white/10 transition-all group overflow-hidden relative flex flex-col">
+                    <a href="{{ auth()->check() ? route('products.show', $product->id ?? 1) : route('login') }}" class="bg-white/5 border border-white/10 rounded-[2.5rem] hover:bg-white/10 transition-all group overflow-hidden relative flex flex-col">
                         <!-- Product Image -->
                         <div class="h-48 w-full overflow-hidden relative bg-forest/20">
                             <img src="{{ $img_url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ $product->name }}">
@@ -333,7 +335,7 @@
 
                         <!-- Tiny background splash -->
                         <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:bg-earth/20 transition-all pointer-events-none"></div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>

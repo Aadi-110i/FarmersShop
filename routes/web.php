@@ -17,6 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/marketplace', [ProductController::class, 'index'])->name('products.index');
     Route::get('/my-products', [ProductController::class, 'myProducts'])->name('products.my-products');
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::post('/products/{product}/buy', [ProductController::class, 'buy'])->name('products.buy');
 

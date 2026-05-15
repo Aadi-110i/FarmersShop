@@ -61,7 +61,7 @@
                         : $product->image_url;
                 }
             @endphp
-            <div class="group bg-white/40 backdrop-blur-md rounded-[3rem] border border-forest/5 overflow-hidden hover:shadow-2xl transition-all duration-700 flex flex-col h-full premium-shadow">
+            <a href="{{ route('products.show', $product) }}" class="group bg-white/40 backdrop-blur-md rounded-[3rem] border border-forest/5 overflow-hidden hover:shadow-2xl transition-all duration-700 flex flex-col h-full premium-shadow">
                 <!-- Product Photography -->
                 <div class="h-80 relative overflow-hidden bg-forest/5">
                     <img src="{{ $imgSrc }}" 
@@ -98,7 +98,7 @@
                         </div>
                         
                         @if(auth()->user()->role === 'farmer')
-                            <form action="{{ route('cart.add', $product) }}" method="POST">
+                            <form action="{{ route('cart.add', $product) }}" method="POST" onclick="event.stopPropagation();">
                                 @csrf
                                 <button type="submit" class="bg-forest text-gold px-8 py-4 rounded-full hover:bg-gold hover:text-forest transition-all shadow-lg flex items-center gap-3 group/btn">
                                     <span class="text-[9px] font-bold uppercase tracking-[0.2em]">Acquire</span>
@@ -110,7 +110,7 @@
                         @endif
                     </div>
                 </div>
-            </div>
+            </a>
         @empty
             <div class="col-span-full py-40 text-center bg-white/40 rounded-[4rem] border border-dashed border-forest/10">
                 <p class="text-forest/30 italic text-xl font-medium">No provisions found in this collection.</p>

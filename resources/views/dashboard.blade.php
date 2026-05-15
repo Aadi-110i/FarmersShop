@@ -101,10 +101,36 @@
                             </thead>
                             <tbody class="divide-y divide-forest/5">
                                 @forelse($orders as $order)
+                                    @php
+                                        $image_map = [
+                                            'sprayer' => asset('images/products/sprayer.png'),
+                                            'seeder' => asset('images/products/seeder.png'),
+                                            'rake' => asset('images/products/rake.png'),
+                                            'pickaxe' => asset('images/products/pickaxe.png'),
+                                            'spade' => asset('images/products/sprayer.png'),
+                                        ];
+
+                                        $name = strtolower($order->product->name);
+                                        $imgSrc = null;
+                                        foreach ($image_map as $key => $url) {
+                                            if (str_contains($name, $key)) {
+                                                $imgSrc = $url;
+                                                break;
+                                            }
+                                        }
+
+                                        if (!$imgSrc) {
+                                            $imgSrc = str_starts_with($order->product->image_url ?? '', '/')
+                                                ? asset($order->product->image_url)
+                                                : ($order->product->image_url ?? 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=200');
+                                        }
+                                    @endphp
                                     <tr class="group hover:bg-sage/10 transition-colors">
                                         <td class="px-12 py-10">
                                             <div class="flex items-center gap-4">
-                                                <div class="w-12 h-12 rounded-2xl bg-forest/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🌱</div>
+                                                <div class="w-14 h-14 rounded-2xl overflow-hidden bg-forest/5 flex-shrink-0 border border-forest/5">
+                                                    <img src="{{ $imgSrc }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                                </div>
                                                 <span class="font-heading text-2xl text-forest">{{ $order->product->name }}</span>
                                             </div>
                                         </td>
@@ -148,10 +174,36 @@
                             </thead>
                             <tbody class="divide-y divide-forest/5">
                                 @forelse($products as $product)
+                                    @php
+                                        $image_map = [
+                                            'sprayer' => asset('images/products/sprayer.png'),
+                                            'seeder' => asset('images/products/seeder.png'),
+                                            'rake' => asset('images/products/rake.png'),
+                                            'pickaxe' => asset('images/products/pickaxe.png'),
+                                            'spade' => asset('images/products/sprayer.png'),
+                                        ];
+
+                                        $name = strtolower($product->name);
+                                        $imgSrc = null;
+                                        foreach ($image_map as $key => $url) {
+                                            if (str_contains($name, $key)) {
+                                                $imgSrc = $url;
+                                                break;
+                                            }
+                                        }
+
+                                        if (!$imgSrc) {
+                                            $imgSrc = str_starts_with($product->image_url ?? '', '/')
+                                                ? asset($product->image_url)
+                                                : ($product->image_url ?? 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=200');
+                                        }
+                                    @endphp
                                     <tr class="group hover:bg-sage/10 transition-colors">
                                         <td class="px-12 py-10">
                                             <div class="flex items-center gap-4">
-                                                <div class="w-12 h-12 rounded-2xl bg-forest/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🚜</div>
+                                                <div class="w-14 h-14 rounded-2xl overflow-hidden bg-forest/5 flex-shrink-0 border border-forest/5">
+                                                    <img src="{{ $imgSrc }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                                </div>
                                                 <span class="font-heading text-2xl text-forest">{{ $product->name }}</span>
                                             </div>
                                         </td>
