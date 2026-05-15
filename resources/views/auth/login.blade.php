@@ -110,7 +110,7 @@
             <!-- Full Bleed Video Background -->
             <video autoplay loop muted playsinline 
                    class="absolute inset-0 w-full h-full object-cover opacity-80 transition-opacity duration-1000">
-                <source src="{{ asset('videos/clouds.mp4') }}" type="video/mp4">
+                <source src="/videos/clouds.mp4" type="video/mp4">
             </video>
             
             <!-- Soft Atmospheric Overlay -->
