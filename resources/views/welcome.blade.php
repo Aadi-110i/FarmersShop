@@ -250,16 +250,16 @@
                                 'user' => (object)['name' => 'Terra Systems']
                             ],
                             (object)[
-                                'name' => 'Premium Basmati Seeds',
-                                'price' => 250.00,
-                                'description' => 'Grade-A long grain seeds.',
-                                'user' => (object)['name' => 'Green Fields Ltd']
+                                'name' => 'Iron Garden Rake',
+                                'price' => 350.00,
+                                'description' => 'Iron 12-tooth strong rake for field leveling.',
+                                'user' => (object)['name' => 'Terra Systems']
                             ],
                             (object)[
-                                'name' => 'Organic Wheat Seeds',
-                                'price' => 180.00,
-                                'description' => 'High-yield winter wheat.',
-                                'user' => (object)['name' => 'Terra Farms']
+                                'name' => 'Heavy Ground Pickaxe',
+                                'price' => 750.00,
+                                'description' => 'Double-headed pickaxe for hard rocky soil.',
+                                'user' => (object)['name' => 'Terra Systems']
                             ]
                         ]);
                     }
@@ -267,6 +267,8 @@
                     $image_map = [
                         'sprayer' => asset('images/products/sprayer.png'),
                         'seeder' => asset('images/products/seeder.png'),
+                        'rake' => asset('images/products/rake.png'),
+                        'pickaxe' => asset('images/products/pickaxe.png'),
                         'basmati' => asset('images/products/seed_basmati.png'),
                         'wheat' => asset('images/products/seed_wheat.png'),
                         'cotton' => asset('images/products/seed_cotton.png'),
