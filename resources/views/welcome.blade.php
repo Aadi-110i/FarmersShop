@@ -238,6 +238,12 @@
                     } catch (\Exception $e) {
                         $products = collect([
                             (object)[
+                                'name' => '16L Knapsack Sprayer',
+                                'price' => 2200.00,
+                                'description' => 'Durable backpack sprayer for crop protection.',
+                                'user' => (object)['name' => 'Terra Systems']
+                            ],
+                            (object)[
                                 'name' => 'Premium Basmati Seeds',
                                 'price' => 250.00,
                                 'description' => 'Grade-A long grain seeds.',
@@ -254,17 +260,12 @@
                                 'price' => 320.00,
                                 'description' => 'Pest-resistant variety.',
                                 'user' => (object)['name' => 'BioGrow']
-                            ],
-                            (object)[
-                                'name' => 'Yellow Mustard Seeds',
-                                'price' => 120.00,
-                                'description' => 'Pure traditional seeds.',
-                                'user' => (object)['name' => 'Village Harvest']
                             ]
                         ]);
                     }
 
                     $image_map = [
+                        'sprayer' => asset('images/products/sprayer.png'),
                         'basmati' => asset('images/products/seed_basmati.png'),
                         'wheat' => asset('images/products/seed_wheat.png'),
                         'cotton' => asset('images/products/seed_cotton.png'),
