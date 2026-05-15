@@ -244,6 +244,12 @@
                                 'user' => (object)['name' => 'Terra Systems']
                             ],
                             (object)[
+                                'name' => 'Manual Row Seeder',
+                                'price' => 3500.00,
+                                'description' => 'Precise manual tool for uniform seed sowing.',
+                                'user' => (object)['name' => 'Terra Systems']
+                            ],
+                            (object)[
                                 'name' => 'Premium Basmati Seeds',
                                 'price' => 250.00,
                                 'description' => 'Grade-A long grain seeds.',
@@ -254,18 +260,13 @@
                                 'price' => 180.00,
                                 'description' => 'High-yield winter wheat.',
                                 'user' => (object)['name' => 'Terra Farms']
-                            ],
-                            (object)[
-                                'name' => 'Hybrid Cotton Seeds',
-                                'price' => 320.00,
-                                'description' => 'Pest-resistant variety.',
-                                'user' => (object)['name' => 'BioGrow']
                             ]
                         ]);
                     }
 
                     $image_map = [
                         'sprayer' => asset('images/products/sprayer.png'),
+                        'seeder' => asset('images/products/seeder.png'),
                         'basmati' => asset('images/products/seed_basmati.png'),
                         'wheat' => asset('images/products/seed_wheat.png'),
                         'cotton' => asset('images/products/seed_cotton.png'),
