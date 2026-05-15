@@ -37,14 +37,38 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         @forelse($products as $product)
+            @php
+                $image_map = [
+                    'sprayer' => '/images/products/sprayer.png',
+                    'seeder' => '/images/products/seeder.png',
+                    'rake' => '/images/products/rake.png',
+                    'pickaxe' => '/images/products/pickaxe.png',
+                    'basmati' => '/images/products/seed_basmati.png',
+                    'wheat' => '/images/products/seed_wheat.png',
+                    'cotton' => '/images/products/seed_cotton.png',
+                    'mustard' => '/images/products/seed_mustard.png',
+                    'corn' => '/images/products/seed_corn.png',
+                    'tomato' => '/images/products/seed_tomato.png',
+                ];
+
+                $name = strtolower($product->name);
+                $imgSrc = null;
+                foreach ($image_map as $key => $url) {
+                    if (str_contains($name, $key)) {
+                        $imgSrc = $url;
+                        break;
+                    }
+                }
+
+                if (!$imgSrc) {
+                    $imgSrc = str_starts_with($product->image_url, '/')
+                        ? asset($product->image_url)
+                        : $product->image_url;
+                }
+            @endphp
             <div class="group bg-white/40 backdrop-blur-md rounded-[3rem] border border-forest/5 overflow-hidden hover:shadow-2xl transition-all duration-700 flex flex-col h-full premium-shadow">
                 <!-- Product Photography -->
                 <div class="h-80 relative overflow-hidden bg-forest/5">
-                    @php
-                        $imgSrc = str_starts_with($product->image_url, '/')
-                            ? asset($product->image_url)
-                            : $product->image_url;
-                    @endphp
                     <img src="{{ $imgSrc }}" 
                          class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" 
                          alt="{{ $product->name }}"
