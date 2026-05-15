@@ -238,36 +238,48 @@
                     } catch (\Exception $e) {
                         $products = collect([
                             (object)[
-                                'name' => 'Premium Basmati Grains',
+                                'id' => 1,
+                                'name' => 'Hybrid Basmati Grains',
                                 'price' => 1250.00,
                                 'description' => 'Long-grain high-aroma rice grains for sowing.',
                                 'category' => 'Seeds',
                                 'stock_quantity' => 250,
-                                'user' => (object)['name' => 'Bharat Agri']
+                                'average_rating' => 4.8,
+                                'review_count' => 12,
+                                'user' => (object)['name' => 'Aadarsh Sharma']
                             ],
                             (object)[
-                                'name' => 'Hybrid Wheat Grain OP',
+                                'id' => 2,
+                                'name' => 'Golden Wheat Grains',
                                 'price' => 850.00,
                                 'description' => 'Premium hard wheat seeds for high yield.',
                                 'category' => 'Seeds',
                                 'stock_quantity' => 450,
-                                'user' => (object)['name' => 'Bharat Agri']
+                                'average_rating' => 4.5,
+                                'review_count' => 8,
+                                'user' => (object)['name' => 'Aadarsh Sharma']
                             ],
                             (object)[
+                                'id' => 3,
                                 'name' => 'Yellow Mustard Seeds',
                                 'price' => 450.00,
                                 'description' => 'High oil content traditional mustard seeds.',
                                 'category' => 'Seeds',
                                 'stock_quantity' => 120,
-                                'user' => (object)['name' => 'Bharat Agri']
+                                'average_rating' => 4.2,
+                                'review_count' => 5,
+                                'user' => (object)['name' => 'Aadarsh Sharma']
                             ],
                             (object)[
-                                'name' => 'Pure Cotton Seeds',
+                                'id' => 4,
+                                'name' => 'Pure Cotton Pod Seeds',
                                 'price' => 1400.00,
                                 'description' => 'Verified cotton seeds with high pest resistance.',
                                 'category' => 'Seeds',
                                 'stock_quantity' => 85,
-                                'user' => (object)['name' => 'Bharat Agri']
+                                'average_rating' => 4.9,
+                                'review_count' => 15,
+                                'user' => (object)['name' => 'Aadarsh Sharma']
                             ]
                         ]);
                     }
@@ -313,28 +325,54 @@
                             $img_url = $image_map['default'];
                         }
                     @endphp
-                    <a href="{{ auth()->check() ? route('products.show', $product->id ?? 1) : route('login') }}" class="bg-white/5 border border-white/10 rounded-[2.5rem] hover:bg-white/10 transition-all group overflow-hidden relative flex flex-col">
+                    <a href="{{ auth()->check() ? route('products.show', $product->id ?? 1) : route('login') }}" class="bg-white border border-forest/5 rounded-[3rem] hover:shadow-2xl transition-all group overflow-hidden relative flex flex-col premium-shadow">
                         <!-- Product Image -->
-                        <div class="h-48 w-full overflow-hidden relative bg-forest/20">
-                            <img src="{{ $img_url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ $product->name }}">
-                            <div class="absolute inset-0 bg-gradient-to-t from-forest/80 to-transparent opacity-40"></div>
-                        </div>
-
-                        <div class="p-8 relative z-10 flex-grow">
-                            <div class="text-earth text-[10px] font-bold uppercase tracking-[0.2em] mb-3">
+                        <div class="h-64 w-full overflow-hidden relative bg-forest/5">
+                            <img src="{{ $img_url }}" class="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="{{ $product->name }}">
+                            <div class="absolute top-6 left-6 bg-cream/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] text-forest border border-forest/5">
                                 {{ $product->category }}
                             </div>
-                            <h4 class="font-heading text-2xl mb-2 text-sunlight">{{ $product->name }}</h4>
-                            <p class="text-sm text-sage opacity-60 mb-8 line-clamp-2">{{ $product->description }}</p>
-                            
-                            <div class="flex items-center justify-between pt-6 border-t border-white/10 mt-auto">
-                                <span class="text-xl font-bold text-sunlight">₹{{ number_format($product->price, 0) }}</span>
-                                <span class="text-[10px] uppercase font-bold tracking-widest text-earth">Stock: {{ $product->stock_quantity }}</span>
-                            </div>
                         </div>
 
-                        <!-- Tiny background splash -->
-                        <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:bg-earth/20 transition-all pointer-events-none"></div>
+                        <div class="p-10 flex-grow">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="font-heading text-3xl text-forest leading-tight group-hover:text-earth transition-colors">{{ $product->name }}</h4>
+                                <span class="text-earth font-light italic text-2xl">₹{{ number_format($product->price, 0) }}</span>
+                            </div>
+
+                            <div class="flex items-center gap-2 mb-6">
+                                <div class="flex text-gold">
+                                    @php $rating = $product->average_rating ?? 5; @endphp
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <svg class="w-3 h-3 {{ $i <= round($rating) ? 'fill-current' : 'text-forest/10' }}" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    @endfor
+                                </div>
+                                <span class="text-[8px] font-bold uppercase tracking-widest text-forest/20">({{ $product->review_count ?? 0 }})</span>
+                            </div>
+                            
+                            <p class="text-sm text-forest/50 mb-10 line-clamp-2 italic font-medium leading-relaxed">"{{ $product->description }}"</p>
+                            
+                            <div class="flex items-center justify-between pt-8 border-t border-forest/5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-forest text-gold flex items-center justify-center text-[8px] font-black italic">
+                                        {{ substr($product->user->name ?? 'T', 0, 1) }}
+                                    </div>
+                                    <div>
+                                        <p class="text-[7px] text-forest/30 font-black uppercase tracking-[0.2em] mb-0.5">Steward</p>
+                                        <p class="font-bold text-forest text-[9px] uppercase tracking-widest">{{ $product->user->name ?? 'Steward' }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-forest text-gold px-6 py-3 rounded-full flex items-center gap-3">
+                                    <span class="text-[8px] font-bold uppercase tracking-[0.2em]">Acquire</span>
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 @endforeach
             </div>
