@@ -1,4 +1,5 @@
 node_modules
+vendor
 /tests
 /3js
 phpunit.xml
@@ -10,3 +11,13 @@ README.md
 /storage/framework/sessions/*
 /storage/framework/views/*
 /storage/logs/*
+
+# Exclude heavy assets to prevent Vercel Function Size limit errors
+public/images/products/grain.png
+public/images/products/grainop.png
+public/images/products/mustard.png
+public/images/products/cotton.png
+public/images/products/seeder.png
+public/images/products/sprayer.png
+public/images/products/rake.png
+public/images/products/pickaxe.png
