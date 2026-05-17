@@ -232,8 +232,23 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @php 
-                    // Fetch real products from database
-                    $products = \App\Models\Product::with('user')->latest()->take(4)->get();
+                    // Fetch specific products that match our premium images
+                    $products = \App\Models\Product::with('user')
+                        ->where(function ($query) {
+                            $query->where('name', 'like', '%Cotton%')
+                                  ->orWhere('name', 'like', '%Mustard%')
+                                  ->orWhere('name', 'like', '%Basmati%')
+                                  ->orWhere('name', 'like', '%Wheat%');
+                        })
+                        ->take(4)
+                        ->get();
+                        
+                    // Fallback if we don't have enough matching products
+                    if ($products->count() < 4) {
+                        $missing = 4 - $products->count();
+                        $more = \App\Models\Product::with('user')->whereNotIn('id', $products->pluck('id'))->latest()->take($missing)->get();
+                        $products = $products->concat($more);
+                    }
                 @endphp
                 @foreach($products as $product)
                     @php
@@ -241,10 +256,10 @@
                         
                         // Priority 1: Keyword match for existing local high-quality images
                         $keyword_map = [
-                            'basmati' => '/images/products/seed_basmati.png',
-                            'wheat' => '/images/products/seed_wheat.png',
-                            'mustard' => '/images/products/seed_mustard.png',
-                            'cotton' => '/images/products/seed_cotton.png',
+                            'basmati' => '/images/products/grainop.png',
+                            'wheat' => '/images/products/grain.png',
+                            'mustard' => '/images/products/mustard.png',
+                            'cotton' => '/images/products/cotton.png',
                             'corn' => '/images/products/seed_corn.png',
                             'tomato' => '/images/products/seed_tomato.png',
                             'sunflower' => 'https://images.unsplash.com/photo-1597848212624-a19eb35e2e47?q=80&w=800&auto=format&fit=crop',
