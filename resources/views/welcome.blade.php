@@ -303,13 +303,19 @@
                 @foreach($products as $product)
                     @php
                         $name = strtolower($product->name);
+                        $category = strtolower($product->category);
                         
-                        // Override logic to use new assets regardless of database URL
+                        // Broad override map for agricultural products
                         $override_map = [
-                            'grainop' => '/images/products/grainop.png',
-                            'grain' => '/images/products/grain.png',
-                            'mustard' => '/images/products/mustard.png',
-                            'cotton' => '/images/products/cotton.png',
+                            'basmati' => '/images/products/seed_basmati.png',
+                            'wheat' => '/images/products/seed_wheat.png',
+                            'mustard' => '/images/products/seed_mustard.png',
+                            'cotton' => '/images/products/seed_cotton.png',
+                            'corn' => '/images/products/seed_corn.png',
+                            'tomato' => '/images/products/seed_tomato.png',
+                            'sunflower' => 'https://images.unsplash.com/photo-1597848212624-a19eb35e2e47?q=80&w=800&auto=format&fit=crop',
+                            'manure' => 'https://images.unsplash.com/photo-1592982537447-6f2a6a0c7c18?q=80&w=800&auto=format&fit=crop',
+                            'compost' => 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=800&auto=format&fit=crop',
                             'sprayer' => '/images/products/sprayer.png',
                             'seeder' => '/images/products/seeder.png',
                             'rake' => '/images/products/rake.png',
@@ -325,15 +331,25 @@
                             }
                         }
 
-                        // Use database image_url if no local override is found
+                        // Use database image_url if no keyword match is found
                         if (!$img_url && !empty($product->image_url)) {
-                            $img_url = str_starts_with($product->image_url, '/')
-                                ? asset($product->image_url)
-                                : $product->image_url;
+                            $img_url = $product->image_url;
                         }
 
+                        // Category-based fallback if still null
                         if (!$img_url) {
-                            $img_url = $image_map['default'];
+                            $category_defaults = [
+                                'seeds' => 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop',
+                                'manures' => 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=800&auto=format&fit=crop',
+                                'fertilizers' => 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800&auto=format&fit=crop',
+                                'tools' => 'https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop',
+                            ];
+                            $img_url = $category_defaults[$category] ?? 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop';
+                        }
+
+                        // Final resolution for relative paths
+                        if (str_starts_with($img_url, '/')) {
+                            $img_url = asset($img_url);
                         }
                     @endphp
                     <a href="{{ auth()->check() ? route('products.show', $product->id ?? 1) : route('login') }}" class="bg-white border border-forest/5 rounded-[3rem] hover:shadow-2xl transition-all group overflow-hidden relative flex flex-col premium-shadow">
@@ -341,8 +357,7 @@
                         <div class="h-64 w-full overflow-hidden relative bg-forest/5">
                             <img src="{{ $img_url }}" 
                                  class="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" 
-                                 alt="{{ $product->name }}"
-                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=800';">
+                                 alt="{{ $product->name }}">
                             <div class="absolute top-6 left-6 bg-cream/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] text-forest border border-forest/5">
                                 {{ $product->category }}
                             </div>
