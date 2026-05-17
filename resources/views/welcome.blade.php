@@ -232,81 +232,15 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @php 
-                    // Mock data to bypass the "could not find driver" error for UI testing
-                    try {
-                        $products = \App\Models\Product::with('user')->take(4)->get(); 
-                    } catch (\Exception $e) {
-                        $products = collect([
-                            (object)[
-                                'id' => 1,
-                                'name' => 'Hybrid Basmati Grains',
-                                'price' => 1250.00,
-                                'image_url' => '/images/products/seed_basmati.png',
-                                'description' => 'Long-grain high-aroma rice grains for sowing.',
-                                'category' => 'Seeds',
-                                'stock_quantity' => 250,
-                                'average_rating' => 4.8,
-                                'review_count' => 12,
-                                'user' => (object)['name' => 'Aadarsh Sharma']
-                            ],
-                            (object)[
-                                'id' => 2,
-                                'name' => 'Golden Wheat Grains',
-                                'price' => 850.00,
-                                'image_url' => '/images/products/seed_wheat.png',
-                                'description' => 'Premium hard wheat seeds for high yield.',
-                                'category' => 'Seeds',
-                                'stock_quantity' => 450,
-                                'average_rating' => 4.5,
-                                'review_count' => 8,
-                                'user' => (object)['name' => 'Aadarsh Sharma']
-                            ],
-                            (object)[
-                                'id' => 3,
-                                'name' => 'Yellow Mustard Seeds',
-                                'price' => 450.00,
-                                'image_url' => '/images/products/seed_mustard.png',
-                                'description' => 'High oil content traditional mustard seeds.',
-                                'category' => 'Seeds',
-                                'stock_quantity' => 120,
-                                'average_rating' => 4.2,
-                                'review_count' => 5,
-                                'user' => (object)['name' => 'Aadarsh Sharma']
-                            ],
-                            (object)[
-                                'id' => 4,
-                                'name' => 'Pure Cotton Pod Seeds',
-                                'price' => 1400.00,
-                                'image_url' => '/images/products/seed_cotton.png',
-                                'description' => 'Verified cotton seeds with high pest resistance.',
-                                'category' => 'Seeds',
-                                'stock_quantity' => 85,
-                                'average_rating' => 4.9,
-                                'review_count' => 15,
-                                'user' => (object)['name' => 'Aadarsh Sharma']
-                            ]
-                        ]);
-                    }
-
-                    $image_map = [
-                        'grainop' => '/images/products/grainop.png',
-                        'grain' => '/images/products/grain.png',
-                        'mustard' => '/images/products/mustard.png',
-                        'cotton' => '/images/products/cotton.png',
-                        'sprayer' => '/images/products/sprayer.png',
-                        'seeder' => '/images/products/seeder.png',
-                        'rake' => '/images/products/rake.png',
-                        'pickaxe' => '/images/products/pickaxe.png',
-                        'default' => 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop'
-                    ];
+                    // Fetch real products from database
+                    $products = \App\Models\Product::with('user')->latest()->take(4)->get();
                 @endphp
                 @foreach($products as $product)
                     @php
                         $name = strtolower($product->name);
-                        $category = strtolower($product->category);
                         
-                        // Broad override map for agricultural products
-                        $override_map = [
+                        // Priority 1: Keyword match for existing local high-quality images
+                        $keyword_map = [
                             'basmati' => '/images/products/seed_basmati.png',
                             'wheat' => '/images/products/seed_wheat.png',
                             'mustard' => '/images/products/seed_mustard.png',
@@ -314,52 +248,42 @@
                             'corn' => '/images/products/seed_corn.png',
                             'tomato' => '/images/products/seed_tomato.png',
                             'sunflower' => 'https://images.unsplash.com/photo-1597848212624-a19eb35e2e47?q=80&w=800&auto=format&fit=crop',
-                            'manure' => 'https://images.unsplash.com/photo-1592982537447-6f2a6a0c7c18?q=80&w=800&auto=format&fit=crop',
-                            'compost' => 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=800&auto=format&fit=crop',
-                            'sprayer' => '/images/products/sprayer.png',
-                            'seeder' => '/images/products/seeder.png',
-                            'rake' => '/images/products/rake.png',
-                            'pickaxe' => '/images/products/pickaxe.png',
-                            'spade' => '/images/products/sprayer.png',
                         ];
 
                         $img_url = null;
-                        foreach ($override_map as $key => $url) {
+                        foreach ($keyword_map as $key => $url) {
                             if (str_contains($name, $key)) {
                                 $img_url = $url;
                                 break;
                             }
                         }
 
-                        // Use database image_url if no keyword match is found
+                        // Priority 2: Use database image_url if no keyword match
                         if (!$img_url && !empty($product->image_url)) {
                             $img_url = $product->image_url;
                         }
 
-                        // Category-based fallback if still null
-                        // Category-based fallback if still null
+                        // Priority 3: Final fallback to category default
                         if (!$img_url) {
-                            $category_defaults = [
-                                'seeds' => 'https://images.unsplash.com/photo-1597848212624-a19eb35e2e47?q=80&w=800&auto=format&fit=crop',
-                                'manures' => 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=800&auto=format&fit=crop',
-                                'fertilizers' => 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800&auto=format&fit=crop',
-                                'tools' => 'https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop',
-                            ];
-                            $img_url = $category_defaults[$category] ?? 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop';
+                            $img_url = 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop';
                         }
 
-                        // Final resolution for relative paths
+                        // Resolve local paths
                         if (str_starts_with($img_url, '/')) {
                             $img_url = asset($img_url);
                         }
                     @endphp
-                    <!-- v2.2 Visual Deployment Check -->
-                    <a href="{{ auth()->check() ? route('products.show', $product->id ?? 1) : route('login') }}" class="bg-white border border-forest/5 rounded-[3rem] hover:shadow-2xl transition-all group overflow-hidden relative flex flex-col premium-shadow">
+                    <!-- v2.5 DEPLOYMENT CHECK -->
+                    <a href="{{ auth()->check() ? route('products.show', $product->id) : route('login') }}" class="bg-white border border-forest/5 rounded-[3rem] hover:shadow-2xl transition-all group overflow-hidden relative flex flex-col premium-shadow">
                         <!-- Product Image -->
                         <div class="h-64 w-full overflow-hidden relative bg-forest/5">
                             <img src="{{ $img_url }}" 
                                  class="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" 
                                  alt="{{ $product->name }}">
+                            <div class="absolute top-6 left-6 bg-cream/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] text-forest border border-forest/5">
+                                {{ $product->category }}
+                            </div>
+                        </div>
                             <div class="absolute top-6 left-6 bg-cream/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] text-forest border border-forest/5">
                                 {{ $product->category }}
                             </div>
