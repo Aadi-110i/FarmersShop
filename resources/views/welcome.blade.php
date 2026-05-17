@@ -321,6 +321,11 @@
                             }
                         }
 
+                        // Use database image_url if no local override is found
+                        if (!$img_url && !empty($product->image_url)) {
+                            $img_url = $product->image_url;
+                        }
+
                         if (!$img_url) {
                             $img_url = $image_map['default'];
                         }

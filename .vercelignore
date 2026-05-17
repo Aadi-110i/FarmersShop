@@ -10,16 +10,3 @@ README.md
 /storage/framework/sessions/*
 /storage/framework/views/*
 /storage/logs/*
-
-# Large images not needed in deployment (served from CDN or replaced)
-/cotton.png
-/grain.png
-/grainop.png
-/moqshss4.png
-/mustard.png
-public/images/moqshss4.png
-public/images/nature-bg.png
-public/images/products/cotton.png
-public/images/products/grain.png
-public/images/products/grainop.png
-public/images/products/mustard.png
