@@ -27,3 +27,39 @@ Thumbs.db
 .belt/
 belt_input.json
 skills-lock.json
+
+# ========================================
+# VERCEL DEPLOYMENT - SIZE OPTIMIZATION
+# ========================================
+# Vercel Serverless Functions have a 250 MB unzipped limit.
+# These files were bloating the bundle and causing deployment failures.
+
+# Root-level leftover image files (not used by the app)
+/cotton.png
+/grain.png
+/grainop.png
+/mustard.png
+/moqshss4.png
+
+# 3js standalone project (separate Three.js app, not part of Laravel)
+/3js/
+
+# Large public images (replaced with compressed JPG or external URLs)
+public/images/moqshss4.png
+public/images/nature-bg.png
+
+# Report files (not needed for deployment)
+*.docx
+*.pdf
+
+# Build output artifacts
+/dist
+
+# SQL dumps
+*.sql
+
+# Temp scripts
+check_sizes.ps1
+check_tracked.ps1
+generate_product_images.ps1
+generate_report.py

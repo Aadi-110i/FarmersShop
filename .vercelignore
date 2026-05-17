@@ -1,23 +1,35 @@
+# Node/PHP dev dependencies (Vercel installs these during build)
 node_modules
-vendor
+
+# Test & config files
 /tests
-/3js
 phpunit.xml
 .editorconfig
 .gitattributes
 README.md
+
+# Dev scripts
 *.ps1
+*.py
+*.docx
+*.pdf
+*.sql
+
+# Storage runtime dirs (recreated in /tmp)
 /storage/framework/cache/*
 /storage/framework/sessions/*
 /storage/framework/views/*
 /storage/logs/*
 
-# Exclude heavy assets to prevent Vercel Function Size limit errors
-public/images/products/grain.png
-public/images/products/grainop.png
-public/images/products/mustard.png
-public/images/products/cotton.png
-public/images/products/seeder.png
-public/images/products/sprayer.png
-public/images/products/rake.png
-public/images/products/pickaxe.png
+# 3js standalone project (not part of Laravel app)
+/3js
+
+# Agent/tool files
+.agents/
+.belt/
+belt_input.json
+skills-lock.json
+
+# Temp files
+check_sizes.ps1
+check_tracked.ps1
