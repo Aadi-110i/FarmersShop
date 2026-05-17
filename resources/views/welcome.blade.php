@@ -241,6 +241,7 @@
                                 'id' => 1,
                                 'name' => 'Hybrid Basmati Grains',
                                 'price' => 1250.00,
+                                'image_url' => '/images/products/grainop.png',
                                 'description' => 'Long-grain high-aroma rice grains for sowing.',
                                 'category' => 'Seeds',
                                 'stock_quantity' => 250,
@@ -252,6 +253,7 @@
                                 'id' => 2,
                                 'name' => 'Golden Wheat Grains',
                                 'price' => 850.00,
+                                'image_url' => '/images/products/grain.png',
                                 'description' => 'Premium hard wheat seeds for high yield.',
                                 'category' => 'Seeds',
                                 'stock_quantity' => 450,
@@ -263,6 +265,7 @@
                                 'id' => 3,
                                 'name' => 'Yellow Mustard Seeds',
                                 'price' => 450.00,
+                                'image_url' => '/images/products/mustard.png',
                                 'description' => 'High oil content traditional mustard seeds.',
                                 'category' => 'Seeds',
                                 'stock_quantity' => 120,
@@ -274,6 +277,7 @@
                                 'id' => 4,
                                 'name' => 'Pure Cotton Pod Seeds',
                                 'price' => 1400.00,
+                                'image_url' => '/images/products/cotton.png',
                                 'description' => 'Verified cotton seeds with high pest resistance.',
                                 'category' => 'Seeds',
                                 'stock_quantity' => 85,
@@ -323,7 +327,9 @@
 
                         // Use database image_url if no local override is found
                         if (!$img_url && !empty($product->image_url)) {
-                            $img_url = $product->image_url;
+                            $img_url = str_starts_with($product->image_url, '/')
+                                ? asset($product->image_url)
+                                : $product->image_url;
                         }
 
                         if (!$img_url) {
@@ -333,7 +339,10 @@
                     <a href="{{ auth()->check() ? route('products.show', $product->id ?? 1) : route('login') }}" class="bg-white border border-forest/5 rounded-[3rem] hover:shadow-2xl transition-all group overflow-hidden relative flex flex-col premium-shadow">
                         <!-- Product Image -->
                         <div class="h-64 w-full overflow-hidden relative bg-forest/5">
-                            <img src="{{ $img_url }}" class="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="{{ $product->name }}">
+                            <img src="{{ $img_url }}" 
+                                 class="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" 
+                                 alt="{{ $product->name }}"
+                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=800';">
                             <div class="absolute top-6 left-6 bg-cream/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] text-forest border border-forest/5">
                                 {{ $product->category }}
                             </div>
