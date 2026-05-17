@@ -232,53 +232,49 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @php 
-                    // Fetch specific products that match our premium images
-                    $products = \App\Models\Product::with('user')
-                        ->where(function ($query) {
-                            $query->where('name', 'like', '%Cotton%')
-                                  ->orWhere('name', 'like', '%Mustard%')
-                                  ->orWhere('name', 'like', '%Basmati%')
-                                  ->orWhere('name', 'like', '%Wheat%');
-                        })
-                        ->take(4)
-                        ->get();
-                        
-                    // Fallback if we don't have enough matching products
-                    if ($products->count() < 4) {
-                        $missing = 4 - $products->count();
-                        $more = \App\Models\Product::with('user')->whereNotIn('id', $products->pluck('id'))->latest()->take($missing)->get();
-                        $products = $products->concat($more);
-                    }
+                    // Fetch any 4 products from the database so routing still works
+                    $products = \App\Models\Product::with('user')->latest()->take(4)->get();
+                    
+                    // We will visually override them to exactly what the user wants to see:
+                    // Cotton, Grain, Grain Op, and Mustard.
+                    $visual_overrides = [
+                        [
+                            'name' => 'Premium Cotton Seeds',
+                            'category' => 'seeds',
+                            'desc' => 'High quality cotton seeds for maximum yield.',
+                            'img' => '/images/products/cotton.png'
+                        ],
+                        [
+                            'name' => 'Golden Grain',
+                            'category' => 'grains',
+                            'desc' => 'Premium golden grains sourced locally.',
+                            'img' => '/images/products/grain.png'
+                        ],
+                        [
+                            'name' => 'Grain Op',
+                            'category' => 'grains',
+                            'desc' => 'Optimized grain variety for tough climates.',
+                            'img' => '/images/products/grainop.png'
+                        ],
+                        [
+                            'name' => 'Yellow Mustard',
+                            'category' => 'seeds',
+                            'desc' => 'High oil content traditional mustard.',
+                            'img' => '/images/products/mustard.png'
+                        ]
+                    ];
                 @endphp
-                @foreach($products as $product)
+                @foreach($products as $index => $product)
                     @php
-                        $name = strtolower($product->name);
+                        // Apply visual overrides for the landing page
+                        $override = $visual_overrides[$index] ?? null;
                         
-                        // Priority 1: Keyword match for existing local high-quality images
-                        $keyword_map = [
-                            'basmati' => '/images/products/grainop.png',
-                            'wheat' => '/images/products/grain.png',
-                            'mustard' => '/images/products/mustard.png',
-                            'cotton' => '/images/products/cotton.png',
-                            'corn' => '/images/products/seed_corn.png',
-                            'tomato' => '/images/products/seed_tomato.png',
-                            'sunflower' => 'https://images.unsplash.com/photo-1597848212624-a19eb35e2e47?q=80&w=800&auto=format&fit=crop',
-                        ];
+                        $display_name = $override ? $override['name'] : $product->name;
+                        $display_category = $override ? $override['category'] : $product->category;
+                        $display_desc = $override ? $override['desc'] : $product->description;
+                        
+                        $img_url = $override ? $override['img'] : $product->image_url;
 
-                        $img_url = null;
-                        foreach ($keyword_map as $key => $url) {
-                            if (str_contains($name, $key)) {
-                                $img_url = $url;
-                                break;
-                            }
-                        }
-
-                        // Priority 2: Use database image_url if no keyword match
-                        if (!$img_url && !empty($product->image_url)) {
-                            $img_url = $product->image_url;
-                        }
-
-                        // Priority 3: Final fallback to category default
                         if (!$img_url) {
                             $img_url = 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop';
                         }
@@ -294,19 +290,15 @@
                         <div class="h-64 w-full overflow-hidden relative bg-forest/5">
                             <img src="{{ $img_url }}" 
                                  class="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" 
-                                 alt="{{ $product->name }}">
+                                 alt="{{ $display_name }}">
                             <div class="absolute top-6 left-6 bg-cream/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] text-forest border border-forest/5">
-                                {{ $product->category }}
-                            </div>
-                        </div>
-                            <div class="absolute top-6 left-6 bg-cream/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] text-forest border border-forest/5">
-                                {{ $product->category }}
+                                {{ $display_category }}
                             </div>
                         </div>
 
                         <div class="p-10 flex-grow">
                             <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-heading text-3xl text-forest leading-tight group-hover:text-earth transition-colors">{{ $product->name }}</h4>
+                                <h4 class="font-heading text-3xl text-forest leading-tight group-hover:text-earth transition-colors">{{ $display_name }}</h4>
                                 <span class="text-earth font-light italic text-2xl">₹{{ number_format($product->price, 0) }}</span>
                             </div>
 
@@ -322,7 +314,7 @@
                                 <span class="text-[8px] font-bold uppercase tracking-widest text-forest/20">({{ $product->review_count ?? 0 }})</span>
                             </div>
                             
-                            <p class="text-sm text-forest/50 mb-10 line-clamp-2 italic font-medium leading-relaxed">"{{ $product->description }}"</p>
+                            <p class="text-sm text-forest/50 mb-10 line-clamp-2 italic font-medium leading-relaxed">"{{ $display_desc }}"</p>
                             
                             <div class="flex items-center justify-between pt-8 border-t border-forest/5">
                                 <div class="flex items-center gap-3">
