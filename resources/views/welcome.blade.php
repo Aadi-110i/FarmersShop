@@ -337,9 +337,10 @@
                         }
 
                         // Category-based fallback if still null
+                        // Category-based fallback if still null
                         if (!$img_url) {
                             $category_defaults = [
-                                'seeds' => 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop',
+                                'seeds' => 'https://images.unsplash.com/photo-1597848212624-a19eb35e2e47?q=80&w=800&auto=format&fit=crop',
                                 'manures' => 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=800&auto=format&fit=crop',
                                 'fertilizers' => 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800&auto=format&fit=crop',
                                 'tools' => 'https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop',
@@ -352,6 +353,7 @@
                             $img_url = asset($img_url);
                         }
                     @endphp
+                    <!-- v2.2 Visual Deployment Check -->
                     <a href="{{ auth()->check() ? route('products.show', $product->id ?? 1) : route('login') }}" class="bg-white border border-forest/5 rounded-[3rem] hover:shadow-2xl transition-all group overflow-hidden relative flex flex-col premium-shadow">
                         <!-- Product Image -->
                         <div class="h-64 w-full overflow-hidden relative bg-forest/5">
