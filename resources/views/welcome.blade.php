@@ -232,11 +232,24 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @php 
-                    // Fetch any 4 products from the database so routing still works
-                    $products = \App\Models\Product::with('user')->latest()->take(4)->get();
+                    try {
+                        // Attempt to fetch any 4 products from the database
+                        $products = \App\Models\Product::with('user')->latest()->take(4)->get();
+                    } catch (\Exception $e) {
+                        $products = collect([]);
+                    }
+
+                    // Ensure we have 4 items to loop through
+                    if ($products->count() < 4) {
+                        $products = collect([
+                            (object)['id' => 1, 'name' => 'Cotton', 'category' => 'seeds', 'description' => '', 'image_url' => '', 'price' => 1250],
+                            (object)['id' => 2, 'name' => 'Grain', 'category' => 'grains', 'description' => '', 'image_url' => '', 'price' => 850],
+                            (object)['id' => 3, 'name' => 'Grain Op', 'category' => 'grains', 'description' => '', 'image_url' => '', 'price' => 1100],
+                            (object)['id' => 4, 'name' => 'Mustard', 'category' => 'seeds', 'description' => '', 'image_url' => '', 'price' => 450],
+                        ]);
+                    }
                     
-                    // We will visually override them to exactly what the user wants to see:
-                    // Cotton, Grain, Grain Op, and Mustard.
+                    // Specific visual overrides for Cotton, Grain, Grain Op, and Mustard
                     $visual_overrides = [
                         [
                             'name' => 'Premium Cotton Seeds',
