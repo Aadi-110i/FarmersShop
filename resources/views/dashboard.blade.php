@@ -164,42 +164,42 @@
                                             @php
                                                 $method = strtolower($order->payment_method ?? 'credit');
                                                 $shortMethod = 'CREDIT';
-                                                $badgeStyle = 'bg-forest/5 text-forest/70 border border-forest/10';
+                                                $badgeStyle = 'bg-forest text-sunlight border border-forest/10';
                                                 
                                                 if (str_contains($method, 'online') || str_contains($method, 'razorpay') || str_contains($method, 'simulated')) {
                                                     $shortMethod = 'ONLINE';
-                                                    $badgeStyle = 'bg-emerald/5 text-emerald border border-emerald/20';
+                                                    $badgeStyle = 'bg-forest text-sunlight border border-forest/10';
                                                 } elseif (str_contains($method, 'cod') || str_contains($method, 'harvest') || str_contains($method, 'delivery') || str_contains($method, 'estate collection')) {
                                                     $shortMethod = 'COD';
-                                                    $badgeStyle = 'bg-amber-600/5 text-amber-700 border border-amber-600/10';
+                                                    $badgeStyle = 'bg-earth text-sunlight border border-earth/10';
                                                 } elseif (str_contains($method, 'upi')) {
                                                     $shortMethod = 'UPI';
-                                                    $badgeStyle = 'bg-blue-600/5 text-blue-700 border border-blue-600/10';
+                                                    $badgeStyle = 'bg-forest/85 text-sunlight border border-forest/10';
                                                 }
                                             @endphp
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest {{ $badgeStyle }}">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest {{ $badgeStyle }} shadow-sm">
                                                 {{ $shortMethod }}
                                             </span>
                                         </td>
                                         <td class="px-12 py-10 text-right">
                                             @php
                                                 $statusLabel = 'Awaiting';
-                                                $statusBadgeStyle = 'bg-amber-600/5 text-amber-700 border border-amber-600/10';
+                                                $statusBadgeStyle = 'bg-forest/60 text-sunlight border border-forest/10';
                                                 if ($order->status === 'confirmed') {
                                                     $statusLabel = 'Confirmed';
-                                                    $statusBadgeStyle = 'bg-blue-600/5 text-blue-700 border border-blue-600/10';
+                                                    $statusBadgeStyle = 'bg-forest/80 text-sunlight border border-forest/10';
                                                 } elseif ($order->status === 'dispatched') {
                                                     $statusLabel = 'Shipped';
-                                                    $statusBadgeStyle = 'bg-purple-600/5 text-purple-700 border border-purple-600/10';
+                                                    $statusBadgeStyle = 'bg-forest text-sunlight border border-forest/10';
                                                 } elseif ($order->status === 'delivered') {
                                                     $statusLabel = 'Arrived';
-                                                    $statusBadgeStyle = 'bg-emerald/5 text-emerald border border-emerald/20';
+                                                    $statusBadgeStyle = 'bg-emerald-600 text-white border border-emerald-600/10';
                                                 } elseif ($order->status === 'cancelled') {
                                                     $statusLabel = 'Cancelled';
-                                                    $statusBadgeStyle = 'bg-red-600/5 text-red-700 border border-red-600/10';
+                                                    $statusBadgeStyle = 'bg-red-700 text-white border border-red-700/10';
                                                 }
                                             @endphp
-                                            <span class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest {{ $statusBadgeStyle }} px-3 py-1.5 rounded-full">
+                                            <span class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest {{ $statusBadgeStyle }} px-3 py-1.5 rounded-full shadow-sm">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
                                                 {{ $statusLabel }}
                                             </span>
@@ -334,20 +334,20 @@
                                                     @php
                                                         $method = strtolower($order->payment_method ?? 'credit');
                                                         $shortMethod = 'CREDIT';
-                                                        $badgeStyle = 'bg-forest/5 text-forest/70 border border-forest/10';
+                                                        $badgeStyle = 'bg-forest text-sunlight border border-forest/10';
                                                         
                                                         if (str_contains($method, 'online') || str_contains($method, 'razorpay') || str_contains($method, 'simulated')) {
                                                             $shortMethod = 'ONLINE';
-                                                            $badgeStyle = 'bg-emerald/5 text-emerald border border-emerald/20';
+                                                            $badgeStyle = 'bg-forest text-sunlight border border-forest/10';
                                                         } elseif (str_contains($method, 'cod') || str_contains($method, 'harvest') || str_contains($method, 'delivery') || str_contains($method, 'estate collection')) {
                                                             $shortMethod = 'COD';
-                                                            $badgeStyle = 'bg-amber-600/5 text-amber-700 border border-amber-600/10';
+                                                            $badgeStyle = 'bg-earth text-sunlight border border-earth/10';
                                                         } elseif (str_contains($method, 'upi')) {
                                                             $shortMethod = 'UPI';
-                                                            $badgeStyle = 'bg-blue-600/5 text-blue-700 border border-blue-600/10';
+                                                            $badgeStyle = 'bg-forest/85 text-sunlight border border-forest/10';
                                                         }
                                                     @endphp
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest {{ $badgeStyle }}">
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest {{ $badgeStyle }} shadow-sm">
                                                         {{ $shortMethod }}
                                                     </span>
                                                 </td>
