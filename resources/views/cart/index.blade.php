@@ -87,19 +87,15 @@
                                 @csrf
                                 <div class="mb-12">
                                     <label class="block text-[9px] font-black uppercase tracking-[0.3em] text-cream/30 mb-8">Settlement Method</label>
-                                    <div class="space-y-4">
-                                        @foreach(['cod' => 'Estate Collection (COD)', 'razorpay' => 'Buy Online (Razorpay)'] as $val => $label)
-                                            <label class="flex items-center gap-4 p-5 rounded-[1.5rem] bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition-all group">
-                                                <input type="radio" name="payment_method" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="text-gold focus:ring-gold bg-transparent border-white/20">
-                                                <span class="text-[10px] font-bold uppercase tracking-widest text-cream/70 group-hover:text-cream">{{ $label }}</span>
-                                            </label>
-                                        @endforeach
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <button type="submit" name="payment_method" value="razorpay" class="w-full bg-forest text-cream py-6 rounded-[1.5rem] font-bold text-[10px] uppercase tracking-[0.2em] border border-forest hover:bg-forest/90 transition-all shadow-2xl shadow-black/40">
+                                            BUY ONLINE
+                                        </button>
+                                        <button type="submit" name="payment_method" value="cod" class="w-full bg-transparent text-cream py-6 rounded-[1.5rem] font-bold text-[10px] uppercase tracking-[0.2em] border border-cream/20 hover:bg-white/10 transition-all shadow-xl shadow-black/20">
+                                            CASH ON DELIVERY
+                                        </button>
                                     </div>
                                 </div>
-
-                                <button type="submit" class="w-full bg-gold text-forest py-6 rounded-full font-bold text-xs uppercase tracking-[0.2em] hover:scale-105 transition-all shadow-2xl shadow-black/40">
-                                    Finalize Acquisition
-                                </button>
                             </form>
 
                             <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -109,8 +105,8 @@
                                 if (!form) return;
 
                                 form.addEventListener('submit', function(e) {
-                                    const paymentRadio = form.querySelector('input[name="payment_method"]:checked');
-                                    const paymentMethod = paymentRadio ? paymentRadio.value : '';
+                                    const submitter = e.submitter;
+                                    const paymentMethod = submitter ? submitter.value : '';
                                     
                                     if (paymentMethod === 'razorpay') {
                                         e.preventDefault();
@@ -123,15 +119,17 @@
                                             "description": "Acquisition Settlement",
                                             "image": "/images/logo.png",
                                             "handler": function (response) {
-                                                // Payment success callback
                                                 const paymentId = document.createElement('input');
                                                 paymentId.type = 'hidden';
                                                 paymentId.name = 'razorpay_payment_id';
                                                 paymentId.value = response.razorpay_payment_id;
                                                 form.appendChild(paymentId);
                                                 
-                                                // Change the value to standard readable name for database
-                                                paymentRadio.value = 'Buy Online (Razorpay)';
+                                                const methodInput = document.createElement('input');
+                                                methodInput.type = 'hidden';
+                                                methodInput.name = 'payment_method';
+                                                methodInput.value = 'Buy Online (Razorpay)';
+                                                form.appendChild(methodInput);
                                                 
                                                 form.submit();
                                             },
@@ -153,7 +151,12 @@
                                                  paymentId.value = 'pay_simulated_' + Math.random().toString(36).substr(2, 9);
                                                  form.appendChild(paymentId);
                                                  
-                                                 paymentRadio.value = 'Buy Online (Simulated)';
+                                                 const methodInput = document.createElement('input');
+                                                 methodInput.type = 'hidden';
+                                                 methodInput.name = 'payment_method';
+                                                 methodInput.value = 'Buy Online (Simulated)';
+                                                 form.appendChild(methodInput);
+                                                 
                                                  form.submit();
                                              }
                                          });

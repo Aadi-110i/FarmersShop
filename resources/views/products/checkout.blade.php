@@ -84,47 +84,14 @@
                         <div>
                             <p class="text-[9px] font-black uppercase tracking-[0.3em] text-forest/30 mb-6">Settlement Method</p>
                             
-                            <div class="grid grid-cols-1 gap-4">
-                                <label class="relative block group cursor-pointer">
-                                    <input type="radio" name="payment_method" value="razorpay" class="peer sr-only" checked>
-                                    <div class="p-6 rounded-3xl border border-forest/5 bg-forest/5 group-hover:bg-forest/10 transition-all peer-checked:border-gold peer-checked:bg-forest peer-checked:text-cream">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-4">
-                                                <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center group-peer-checked:bg-gold/20">
-                                                    <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                                                </div>
-                                                <span class="text-[10px] font-black uppercase tracking-widest">Buy Online (Razorpay)</span>
-                                            </div>
-                                            <div class="w-4 h-4 rounded-full border-2 border-forest/10 peer-checked:border-gold flex items-center justify-center">
-                                                <div class="w-2 h-2 rounded-full bg-gold opacity-0 peer-checked:opacity-100 transition-opacity"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </label>
-
-                                <label class="relative block group cursor-pointer">
-                                    <input type="radio" name="payment_method" value="Harvest Link" class="peer sr-only">
-                                    <div class="p-6 rounded-3xl border border-forest/5 bg-forest/5 group-hover:bg-forest/10 transition-all peer-checked:border-gold peer-checked:bg-forest peer-checked:text-cream">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-4">
-                                                <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center">
-                                                    <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                                </div>
-                                                <span class="text-[10px] font-black uppercase tracking-widest">Harvest Link (COD)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button type="submit" name="payment_method" value="razorpay" class="w-full bg-forest text-cream py-6 rounded-3xl font-bold text-[10px] uppercase tracking-[0.2em] border border-forest hover:bg-forest/90 transition-all shadow-xl">
+                                    BUY ONLINE
+                                </button>
+                                <button type="submit" name="payment_method" value="Harvest Link" class="w-full bg-transparent text-forest py-6 rounded-3xl font-bold text-[10px] uppercase tracking-[0.2em] border border-forest/20 hover:bg-forest/5 transition-all shadow-md">
+                                    CASH ON DELIVERY
+                                </button>
                             </div>
-                        </div>
-
-                        <div class="pt-8">
-                            <button type="submit" class="w-full bg-forest text-gold px-12 py-6 rounded-full hover:bg-gold hover:text-forest transition-all shadow-2xl flex items-center justify-center gap-4 group/btn">
-                                <span class="text-xs font-bold uppercase tracking-[0.3em]">Confirm Settlement</span>
-                                <svg class="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                </svg>
-                            </button>
                         </div>
                     </form>
 
@@ -135,8 +102,8 @@
                         if (!form) return;
 
                         form.addEventListener('submit', function(e) {
-                            const paymentRadio = form.querySelector('input[name="payment_method"]:checked');
-                            const paymentMethod = paymentRadio ? paymentRadio.value : '';
+                            const submitter = e.submitter;
+                            const paymentMethod = submitter ? submitter.value : '';
                             
                             if (paymentMethod === 'razorpay') {
                                 e.preventDefault();
@@ -156,8 +123,11 @@
                                         paymentId.value = response.razorpay_payment_id;
                                         form.appendChild(paymentId);
                                         
-                                        // Modify radio value to record payment method name in database
-                                        paymentRadio.value = 'Buy Online (Razorpay)';
+                                        const methodInput = document.createElement('input');
+                                        methodInput.type = 'hidden';
+                                        methodInput.name = 'payment_method';
+                                        methodInput.value = 'Buy Online (Razorpay)';
+                                        form.appendChild(methodInput);
                                         
                                         form.submit();
                                     },
@@ -179,7 +149,12 @@
                                          paymentId.value = 'pay_simulated_' + Math.random().toString(36).substr(2, 9);
                                          form.appendChild(paymentId);
                                          
-                                         paymentRadio.value = 'Buy Online (Simulated)';
+                                         const methodInput = document.createElement('input');
+                                         methodInput.type = 'hidden';
+                                         methodInput.name = 'payment_method';
+                                         methodInput.value = 'Buy Online (Simulated)';
+                                         form.appendChild(methodInput);
+                                         
                                          form.submit();
                                      }
                                  });
