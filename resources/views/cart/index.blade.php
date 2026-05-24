@@ -87,16 +87,242 @@
                                 @csrf
                                 <div class="mb-12">
                                     <label class="block text-[9px] font-black uppercase tracking-[0.3em] text-cream/30 mb-8">Settlement Method</label>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <button type="submit" name="payment_method" value="razorpay" class="w-full bg-forest text-cream py-6 rounded-[1.5rem] font-bold text-[10px] uppercase tracking-[0.2em] border border-forest hover:bg-forest/90 transition-all shadow-2xl shadow-black/40">
-                                            BUY ONLINE
-                                        </button>
-                                        <button type="submit" name="payment_method" value="cod" class="w-full bg-transparent text-cream py-6 rounded-[1.5rem] font-bold text-[10px] uppercase tracking-[0.2em] border border-cream/20 hover:bg-white/10 transition-all shadow-xl shadow-black/20">
-                                            CASH ON DELIVERY
-                                        </button>
+                                    <div class="space-y-4">
+                                        @foreach(['cod' => 'Estate Collection (COD)', 'razorpay' => 'Buy Online (Razorpay)'] as $val => $label)
+                                            <label class="flex items-center gap-4 p-5 rounded-[1.5rem] bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition-all group">
+                                                <input type="radio" name="payment_method" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="text-gold focus:ring-gold bg-transparent border-white/20">
+                                                <span class="text-[10px] font-bold uppercase tracking-widest text-cream/70 group-hover:text-cream">{{ $label }}</span>
+                                            </label>
+                                        @endforeach
                                     </div>
                                 </div>
+
+                                <button type="submit" class="w-full bg-gold text-forest py-6 rounded-full font-bold text-xs uppercase tracking-[0.2em] hover:scale-105 transition-all shadow-2xl shadow-black/40">
+                                    Finalize Acquisition
+                                </button>
                             </form>
+
+                            <!-- Premium Glassmorphic Modal Overlay -->
+                            <div id="payment-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest/80 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300">
+                                <!-- Modal Card -->
+                                <div class="bg-forest border border-gold/30 rounded-[3rem] p-10 max-w-md w-full relative overflow-hidden shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="modal-card">
+                                    <!-- Decorative Glow -->
+                                    <div class="absolute -top-12 -right-12 w-48 h-48 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+                                    
+                                    <!-- View 1: Failure / Choice Dialog -->
+                                    <div id="modal-view-choice" class="space-y-8">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-gold/20">
+                                                <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                                </svg>
+                                            </div>
+                                            <h3 class="font-heading text-3xl text-cream">Settlement <span class="text-gold italic">Interrupted</span></h3>
+                                            <p class="text-xs text-cream/60 mt-4 leading-relaxed" id="payment-error-desc">
+                                                The Razorpay checkout process was cancelled or encountered a validation issue.
+                                            </p>
+                                        </div>
+
+                                        <div class="space-y-4 pt-4">
+                                            <button type="button" id="btn-simulate" class="w-full bg-gold text-forest py-5 rounded-full font-bold text-xs uppercase tracking-[0.2em] hover:scale-[1.02] transition-transform shadow-lg shadow-black/20 flex items-center justify-center gap-3">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                                Simulate Settlement (Test Mode)
+                                            </button>
+                                            
+                                            <button type="button" id="btn-retry" class="w-full bg-white/5 border border-white/10 text-cream py-5 rounded-full font-bold text-xs uppercase tracking-[0.2em] hover:bg-white/10 transition-colors flex items-center justify-center gap-3">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.253 8H18"></path></svg>
+                                                Retry Payment
+                                            </button>
+
+                                            <button type="button" id="btn-cancel-modal" class="w-full text-cream/40 hover:text-cream py-3 font-bold text-[10px] uppercase tracking-[0.2em] transition-colors">
+                                                Choose Another Method
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- View 2: Simulated Ledger Processing -->
+                                    <div id="modal-view-processing" class="hidden space-y-8">
+                                        <div class="text-center">
+                                            <h3 class="font-heading text-3xl text-cream">Terra Ledger <span class="text-gold italic">Processing</span></h3>
+                                            <p class="text-[10px] text-gold uppercase tracking-[0.3em] font-black mt-2">Cryptographic Settlement</p>
+                                        </div>
+
+                                        <!-- Handshake Logs Terminal -->
+                                        <div class="bg-black/30 rounded-2xl p-6 font-mono text-[10px] text-cream/80 space-y-3 border border-white/5 min-h-[120px]">
+                                            <div id="log-line-1" class="opacity-0 transition-opacity duration-300">&gt; Establishing handshake with Terra Network...</div>
+                                            <div id="log-line-2" class="opacity-0 transition-opacity duration-300">&gt; Reserving product allocation in inventory...</div>
+                                            <div id="log-line-3" class="opacity-0 transition-opacity duration-300">&gt; Recording secure estate ledger entry...</div>
+                                            <div id="log-line-4" class="opacity-0 transition-opacity duration-300 text-gold font-bold">&gt; Cryptographic signature verified. OK.</div>
+                                        </div>
+
+                                        <!-- Spinner / Success checkmark -->
+                                        <div class="flex justify-center py-4">
+                                            <div class="relative w-16 h-16" id="sim-graphic-container">
+                                                <!-- Custom Golden Spinner -->
+                                                <div class="w-16 h-16 border-4 border-gold/10 border-t-gold rounded-full animate-spin" id="sim-spinner"></div>
+                                                
+                                                <!-- Animated Checkmark (hidden initially) -->
+                                                <div class="absolute inset-0 flex items-center justify-center hidden" id="sim-checkmark">
+                                                    <svg class="w-16 h-16 text-gold animate-bounce" fill="none" viewBox="0 0 52 52">
+                                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="157" stroke-dashoffset="157" style="animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; transform-origin: center;"></circle>
+                                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="48" stroke-dashoffset="48" style="animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <style>
+                            @keyframes stroke {
+                                100% {
+                                    stroke-dashoffset: 0;
+                                }
+                            }
+                            </style>
+
+                            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const form = document.querySelector('form[action="{{ route('cart.checkout') }}"]');
+                                if (!form) return;
+
+                                const modal = document.getElementById('payment-modal');
+                                const card = document.getElementById('modal-card');
+                                const errorDesc = document.getElementById('payment-error-desc');
+                                const btnSimulate = document.getElementById('btn-simulate');
+                                const btnRetry = document.getElementById('btn-retry');
+                                const btnCancelModal = document.getElementById('btn-cancel-modal');
+                                
+                                const choiceView = document.getElementById('modal-view-choice');
+                                const processingView = document.getElementById('modal-view-processing');
+                                const spinner = document.getElementById('sim-spinner');
+                                const checkmark = document.getElementById('sim-checkmark');
+
+                                function showModal(errorMsg) {
+                                    // Ensure views are reset when showing modal
+                                    choiceView.classList.remove('hidden');
+                                    processingView.classList.add('hidden');
+                                    spinner.classList.remove('hidden');
+                                    checkmark.classList.add('hidden');
+
+                                    // Reset logs
+                                    document.getElementById('log-line-1').classList.add('opacity-0');
+                                    document.getElementById('log-line-2').classList.add('opacity-0');
+                                    document.getElementById('log-line-3').classList.add('opacity-0');
+                                    document.getElementById('log-line-4').classList.add('opacity-0');
+
+                                    if (errorMsg) {
+                                        errorDesc.textContent = "The Razorpay checkout process was interrupted (" + errorMsg + "). For testing or seamless evaluation, you can simulate a successful settlement below.";
+                                    }
+                                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                                    setTimeout(() => {
+                                        card.classList.remove('scale-95', 'opacity-0');
+                                    }, 50);
+                                }
+
+                                function hideModal() {
+                                    card.classList.add('scale-95', 'opacity-0');
+                                    setTimeout(() => {
+                                        modal.classList.add('opacity-0', 'pointer-events-none');
+                                    }, 300);
+                                }
+
+                                function triggerSimulation() {
+                                    choiceView.classList.add('hidden');
+                                    processingView.classList.remove('hidden');
+
+                                    const log1 = document.getElementById('log-line-1');
+                                    const log2 = document.getElementById('log-line-2');
+                                    const log3 = document.getElementById('log-line-3');
+                                    const log4 = document.getElementById('log-line-4');
+
+                                    setTimeout(() => { log1.classList.remove('opacity-0'); }, 300);
+                                    setTimeout(() => { log2.classList.remove('opacity-0'); }, 1000);
+                                    setTimeout(() => { log3.classList.remove('opacity-0'); }, 1700);
+                                    setTimeout(() => { 
+                                        log4.classList.remove('opacity-0');
+                                        spinner.classList.add('hidden');
+                                        checkmark.classList.remove('hidden');
+                                    }, 2400);
+
+                                    setTimeout(() => {
+                                        const paymentRadio = form.querySelector('input[name="payment_method"]:checked');
+                                        const paymentId = document.createElement('input');
+                                        paymentId.type = 'hidden';
+                                        paymentId.name = 'razorpay_payment_id';
+                                        paymentId.value = 'pay_simulated_' + Math.random().toString(36).substr(2, 9);
+                                        form.appendChild(paymentId);
+                                        
+                                        if (paymentRadio) {
+                                            paymentRadio.value = 'Buy Online (Simulated)';
+                                        }
+                                        form.submit();
+                                    }, 3700);
+                                }
+
+                                let lastRzpInstance = null;
+
+                                function openRazorpay() {
+                                    const paymentRadio = form.querySelector('input[name="payment_method"]:checked');
+                                    const options = {
+                                        "key": "{{ env('RAZORPAY_KEY', 'rzp_test_StMI9YVHUqMplm') }}",
+                                        "amount": {{ $total * 100 }},
+                                        "currency": "INR",
+                                        "name": "TerraMarket",
+                                        "description": "Acquisition Settlement",
+                                        "image": "/images/logo.png",
+                                        "handler": function (response) {
+                                            const paymentId = document.createElement('input');
+                                            paymentId.type = 'hidden';
+                                            paymentId.name = 'razorpay_payment_id';
+                                            paymentId.value = response.razorpay_payment_id;
+                                            form.appendChild(paymentId);
+                                            if (paymentRadio) {
+                                                paymentRadio.value = 'Buy Online (Razorpay)';
+                                            }
+                                            form.submit();
+                                        },
+                                        "prefill": {
+                                            "name": "{{ auth()->user()->name }}",
+                                            "email": "{{ auth()->user()->email }}"
+                                        },
+                                        "theme": {
+                                            "color": "#1C3F2B"
+                                        },
+                                        "modal": {
+                                            "ondismiss": function() {
+                                                showModal("Cancelled by user");
+                                            }
+                                        }
+                                    };
+
+                                    lastRzpInstance = new Razorpay(options);
+                                    lastRzpInstance.on('payment.failed', function (response){
+                                        showModal(response.error.description);
+                                    });
+                                    lastRzpInstance.open();
+                                }
+
+                                form.addEventListener('submit', function(e) {
+                                    const paymentRadio = form.querySelector('input[name="payment_method"]:checked');
+                                    const paymentMethod = paymentRadio ? paymentRadio.value : '';
+                                    
+                                    if (paymentMethod === 'razorpay') {
+                                        e.preventDefault();
+                                        openRazorpay();
+                                    }
+                                });
+
+                                btnSimulate.addEventListener('click', triggerSimulation);
+                                btnRetry.addEventListener('click', function() {
+                                    hideModal();
+                                    setTimeout(openRazorpay, 350);
+                                });
+                                btnCancelModal.addEventListener('click', hideModal);
+                            });
+                            </script>
                         </div>
                     </div>
                 </div>

@@ -252,25 +252,25 @@
                     // Specific visual overrides for Cotton, Grain, Grain Op, and Mustard
                     $visual_overrides = [
                         [
-                            'name' => 'Premium Cotton Seeds',
+                            'name' => 'Pure Cotton<br>Pod Seeds',
                             'category' => 'seeds',
                             'desc' => 'Cotton seeds for maximum yield.',
                             'img' => '/images/products/cotton.png'
                         ],
                         [
-                            'name' => 'Golden Grain',
+                            'name' => 'Golden Wheat Grains',
                             'category' => 'grains',
                             'desc' => 'Premium golden grains sourced locally.',
                             'img' => '/images/products/grain.png'
                         ],
                         [
-                            'name' => 'Grain Op',
+                            'name' => 'Hybrid Basmati Grains',
                             'category' => 'grains',
                             'desc' => 'Optimized grain variety for tough climates.',
                             'img' => '/images/products/grainop.png'
                         ],
                         [
-                            'name' => 'Yellow Mustard',
+                            'name' => 'Yellow Mustard Seeds',
                             'category' => 'seeds',
                             'desc' => 'High oil content traditional mustard.',
                             'img' => '/images/products/mustard.png'
@@ -311,8 +311,8 @@
 
                         <div class="p-10 flex-grow flex flex-col">
                             <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-heading text-3xl text-sunlight leading-tight group-hover:text-gold transition-colors">{{ $display_name }}</h4>
-                                <span class="text-gold font-light italic text-2xl">₹{{ number_format($product->price, 0) }}</span>
+                                <h4 class="font-heading text-3xl text-white leading-tight transition-colors">{!! $display_name !!}</h4>
+                                <span class="text-white font-light italic text-2xl">₹{{ number_format($product->price, 0) }}</span>
                             </div>
 
                             <div class="flex items-center gap-2 mb-6">
@@ -338,7 +338,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="bg-forest text-gold px-6 py-3 rounded-full flex items-center gap-3 hover:bg-gold hover:text-forest transition-all duration-300 cursor-pointer">
+                                <div class="bg-forest text-white px-6 py-3 rounded-full flex items-center gap-3 hover:bg-gold hover:text-forest transition-all duration-300 cursor-pointer">
                                     <span class="text-[8px] font-bold uppercase tracking-[0.2em]">Acquire</span>
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
@@ -363,13 +363,9 @@
         <div class="container mx-auto px-6 text-center relative z-10">
             <div class="flex items-center justify-center mb-12">
                 <a href="/" class="group">
-                    <div class="flex items-center gap-2">
-                        <!-- Farmer and Oxen Logo Image -->
-                        <img src="{{ asset('images/logo.png') }}" class="w-20 h-20 object-contain invert brightness-200 group-hover:scale-105 transition-transform duration-500" alt="Terra Logo">
-                        <div class="flex flex-col text-left">
-                            <span class="font-heading font-black text-3xl tracking-tighter text-white leading-none uppercase">Terra</span>
-                            <span class="font-sans font-bold text-[11px] tracking-[0.4em] text-sunlight/50 leading-none uppercase ml-0.5">Market</span>
-                        </div>
+                    <div class="flex flex-col text-center">
+                        <span class="font-heading font-black text-3xl tracking-tighter text-white leading-none uppercase">Terra</span>
+                        <span class="font-sans font-bold text-[11px] tracking-[0.4em] text-sunlight/50 leading-none uppercase ml-0.5">Market</span>
                     </div>
                 </a>
             </div>

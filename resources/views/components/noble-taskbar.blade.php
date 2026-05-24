@@ -112,18 +112,40 @@ document.addEventListener('DOMContentLoaded', () => {
     let startX, startY;
     let currentX = 0, currentY = 0;
 
-    // Restore position from localStorage
+    // Restore position from localStorage safely
     const savedPos = localStorage.getItem('taskbar-position');
     if (savedPos) {
         try {
             const pos = JSON.parse(savedPos);
-            taskbar.style.bottom = 'auto';
-            taskbar.style.left = pos.x + 'px';
-            taskbar.style.top = pos.y + 'px';
-            taskbar.style.transform = 'none';
-            currentX = pos.x;
-            currentY = pos.y;
-        } catch(e) {}
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Wait brief tick to let taskbar layout complete
+            setTimeout(() => {
+                const rect = taskbar.getBoundingClientRect();
+                const tWidth = rect.width || 450;
+                const tHeight = rect.height || 60;
+
+                // Clamp position inside the visible viewport with padding
+                let x = Math.max(10, Math.min(pos.x, viewportWidth - tWidth - 10));
+                let y = Math.max(10, Math.min(pos.y, viewportHeight - tHeight - 10));
+
+                // If coordinates are invalid, reset to default bottom-center position
+                if (isNaN(x) || isNaN(y) || x < 0 || y < 0) {
+                    localStorage.removeItem('taskbar-position');
+                    return;
+                }
+
+                taskbar.style.bottom = 'auto';
+                taskbar.style.left = x + 'px';
+                taskbar.style.top = y + 'px';
+                taskbar.style.transform = 'none';
+                currentX = x;
+                currentY = y;
+            }, 60);
+        } catch(e) {
+            localStorage.removeItem('taskbar-position');
+        }
     }
 
     handle.addEventListener('pointerdown', (e) => {
@@ -149,9 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const rect = taskbar.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
+        const tWidth = rect.width || 450;
+        const tHeight = rect.height || 60;
 
-        x = Math.max(0, Math.min(x, viewportWidth - rect.width));
-        y = Math.max(0, Math.min(y, viewportHeight - rect.height));
+        x = Math.max(10, Math.min(x, viewportWidth - tWidth - 10));
+        y = Math.max(10, Math.min(y, viewportHeight - tHeight - 10));
 
         // Apply styles
         taskbar.style.bottom = 'auto';

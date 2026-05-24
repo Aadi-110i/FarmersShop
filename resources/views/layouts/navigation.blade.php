@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-transparent">
+<nav class="bg-transparent">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex justify-between h-24 items-center">
@@ -6,6 +6,23 @@
             <div class="shrink-0 flex items-center">
                 <a href="/" class="group">
                     <x-application-logo />
+                </a>
+            </div>
+            <!-- Center Navigation Links (Desktop) -->
+            <div class="hidden md:flex items-center gap-10">
+                <a href="{{ route('dashboard') }}" class="text-[10px] font-black uppercase tracking-[0.25em] {{ request()->routeIs('dashboard') ? 'text-earth' : 'text-forest/40 hover:text-earth' }} transition-colors">
+                    Overview
+                </a>
+                <a href="{{ route('products.index') }}" class="text-[10px] font-black uppercase tracking-[0.25em] {{ request()->routeIs('products.index') ? 'text-earth' : 'text-forest/40 hover:text-earth' }} transition-colors">
+                    Market
+                </a>
+                @if(auth()->user()->role === 'supplier')
+                    <a href="{{ route('products.my-products') }}" class="text-[10px] font-black uppercase tracking-[0.25em] {{ request()->routeIs('products.my-products') ? 'text-earth' : 'text-forest/40 hover:text-earth' }} transition-colors">
+                        Inventory
+                    </a>
+                @endif
+                <a href="{{ route('farmer-requests.index') }}" class="text-[10px] font-black uppercase tracking-[0.25em] {{ request()->routeIs('farmer-requests.index') ? 'text-earth' : 'text-forest/40 hover:text-earth' }} transition-colors">
+                    {{ auth()->user()->role === 'farmer' ? 'Broadcast' : 'Demand' }}
                 </a>
             </div>
 
