@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FarmerRequestController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,6 +43,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/farmer-requests', [FarmerRequestController::class, 'store'])->name('farmer-requests.store');
     Route::delete('/farmer-requests/{farmerRequest}', [FarmerRequestController::class, 'destroy'])->name('farmer-requests.destroy');
     Route::patch('/farmer-requests/{farmerRequest}/fulfill', [FarmerRequestController::class, 'fulfill'])->name('farmer-requests.fulfill');
+
+    // Order Status Update Route
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
 });
 
 Route::middleware('auth')->group(function () {
