@@ -3,7 +3,7 @@
         Broadcasting Hub
     </x-slot>
 
-    <div class="max-w-4xl mx-auto space-y-12 py-4">
+    <div class="max-w-6xl px-4 lg:px-8 mx-auto space-y-12 py-4">
         <!-- Toast Notification Error -->
         @if(session('error'))
             <div class="bg-red-50/80 backdrop-blur-md border border-red-200 text-red-700 p-4 rounded-2xl flex items-center justify-between shadow-xl shadow-red-900/5">
@@ -24,14 +24,14 @@
 
         @if(auth()->user()->role === 'farmer')
             <!-- FARMER VIEW: COMPOSER & FEED -->
-            <div class="space-y-10">
+            <div class="flex flex-col xl:flex-row gap-10 items-start">
                 <!-- THE COMPOSER -->
-                <div class="bg-forest p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+                <div class="w-full xl:w-1/2 bg-forest p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group shrink-0 sticky top-4">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-earth/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
                     
-                    <div class="relative z-10 flex flex-col lg:flex-row gap-10">
-                        <!-- Left Side: Branding/Title -->
-                        <div class="lg:w-1/3 border-b lg:border-b-0 lg:border-r border-sunlight/10 pb-8 lg:pb-0 lg:pr-10">
+                    <div class="relative z-10 flex flex-col gap-8">
+                        <!-- Top/Left Side: Branding/Title -->
+                        <div class="border-b border-sunlight/10 pb-6">
                             <div class="sticky top-0">
                                 <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sunlight/5 border border-sunlight/10 mb-4">
                                     <span class="w-1 h-1 rounded-full bg-emerald animate-pulse"></span>
@@ -44,8 +44,8 @@
                             </div>
                         </div>
 
-                        <!-- Right Side: The Form -->
-                        <div class="lg:w-2/3">
+                        <!-- Bottom/Right Side: The Form -->
+                        <div>
                             <form method="POST" action="{{ route('farmer-requests.store') }}" class="space-y-6">
                                 @csrf
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -71,11 +71,11 @@
                                     <div class="space-y-1.5">
                                         <label class="text-[9px] font-black uppercase tracking-[0.2em] text-sunlight/40 ml-1">Urgency</label>
                                         <div class="grid grid-cols-3 gap-2">
-                                            @foreach(['low' => '🍃', 'medium' => '⚡', 'high' => '🚨'] as $val => $icon)
+                                            @foreach(['low' => 'Low', 'medium' => 'Medium', 'high' => 'High'] as $val => $label)
                                                 <label class="cursor-pointer">
                                                     <input type="radio" name="urgency" value="{{ $val }}" class="sr-only peer" {{ ($val === 'medium' || old('urgency') === $val) ? 'checked' : '' }}>
-                                                    <div class="py-2.5 rounded-xl border border-sunlight/10 bg-sunlight/5 text-sunlight/40 text-center font-black text-[9px] uppercase tracking-widest transition-all peer-checked:bg-gold peer-checked:text-forest peer-checked:border-gold hover:bg-sunlight/10 flex items-center justify-center gap-1.5 active:scale-95">
-                                                        <span>{{ $icon }}</span>
+                                                    <div class="py-2.5 rounded-xl border border-sunlight/10 bg-sunlight/5 text-white/60 text-center font-black text-[10px] uppercase tracking-widest transition-all peer-checked:bg-gold peer-checked:text-white peer-checked:border-gold hover:bg-sunlight/10 flex items-center justify-center gap-1.5 active:scale-95">
+                                                        <span>{{ $label }}</span>
                                                     </div>
                                                 </label>
                                             @endforeach
@@ -102,7 +102,7 @@
                 </div>
 
                 <!-- THE FEED -->
-                <div class="space-y-6">
+                <div class="w-full xl:w-1/2 space-y-6">
                     <div class="flex items-center gap-4 px-2">
                         <h3 class="font-heading text-2xl text-forest shrink-0">Your <span class="italic text-earth">Activity Feed</span></h3>
                         <div class="h-px w-full bg-forest/10"></div>
@@ -161,10 +161,10 @@
                                         <div class="flex items-center gap-3 bg-emerald/5 px-4 py-2 rounded-2xl border border-emerald/10">
                                             <div class="text-right">
                                                 <span class="text-[8px] font-black text-emerald uppercase tracking-widest block leading-none mb-1">Fulfilled by</span>
-                                                <span class="text-[11px] font-black text-forest">{{ $request->supplier->name ?? 'Affiliate' }}</span>
+                                                <span class="text-[11px] font-black text-forest">The Supplier</span>
                                             </div>
                                             <div class="w-8 h-8 rounded-full bg-forest text-gold flex items-center justify-center text-[10px] font-black">
-                                                {{ strtoupper(substr($request->supplier->name ?? 'A', 0, 1)) }}
+                                                S
                                             </div>
                                         </div>
                                     @endif
@@ -277,7 +277,7 @@
                                                 <svg class="w-5 h-5 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                                 <div class="text-right">
                                                     <span class="text-[9px] font-black text-emerald uppercase tracking-widest block leading-none mb-1">Fulfilled</span>
-                                                    <span class="text-[11px] font-black text-forest">{{ $request->supplier->name ?? 'Affiliate' }}</span>
+                                                    <span class="text-[11px] font-black text-forest">The Supplier</span>
                                                 </div>
                                             </div>
                                         @endif
