@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\FarmerRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +36,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/products/{product}/checkout', function(App\Models\Product $product) {
         return view('products.checkout', compact('product'));
     })->name('products.checkout');
+
+    // Farmer Request / Broadcast Routes
+    Route::get('/farmer-requests', [FarmerRequestController::class, 'index'])->name('farmer-requests.index');
+    Route::post('/farmer-requests', [FarmerRequestController::class, 'store'])->name('farmer-requests.store');
+    Route::delete('/farmer-requests/{farmerRequest}', [FarmerRequestController::class, 'destroy'])->name('farmer-requests.destroy');
+    Route::patch('/farmer-requests/{farmerRequest}/fulfill', [FarmerRequestController::class, 'fulfill'])->name('farmer-requests.fulfill');
 });
 
 Route::middleware('auth')->group(function () {

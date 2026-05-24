@@ -19,7 +19,7 @@
                 extend: {
                     colors: {
                         forest: '#1C3F2B',
-                        sage: '#E4EBE5',
+                        sage: '#C5E2CD',
                         earth: '#8C6A53',
                         sunlight: '#FDF9EC',
                     },
@@ -254,7 +254,7 @@
                         [
                             'name' => 'Premium Cotton Seeds',
                             'category' => 'seeds',
-                            'desc' => 'High quality cotton seeds for maximum yield.',
+                            'desc' => 'Cotton seeds for maximum yield.',
                             'img' => '/images/products/cotton.png'
                         ],
                         [
@@ -298,7 +298,7 @@
                         }
                     @endphp
                     <!-- v2.5 DEPLOYMENT CHECK -->
-                    <a href="{{ auth()->check() ? route('products.show', $product->id) : route('login') }}" class="bg-white border border-forest/5 rounded-[3rem] hover:shadow-2xl transition-all group overflow-hidden relative flex flex-col premium-shadow">
+                    <a href="{{ auth()->check() ? route('products.show', $product->id) : route('login') }}" class="bg-[#254835] border border-forest/10 rounded-[3rem] hover:shadow-2xl transition-all group overflow-hidden relative flex flex-col premium-shadow">
                         <!-- Product Image -->
                         <div class="h-64 w-full overflow-hidden relative bg-forest/5">
                             <img src="{{ $img_url }}" 
@@ -309,38 +309,36 @@
                             </div>
                         </div>
 
-                        <div class="p-10 flex-grow">
+                        <div class="p-10 flex-grow flex flex-col">
                             <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-heading text-3xl text-forest leading-tight group-hover:text-earth transition-colors">{{ $display_name }}</h4>
-                                <span class="text-earth font-light italic text-2xl">₹{{ number_format($product->price, 0) }}</span>
+                                <h4 class="font-heading text-3xl text-sunlight leading-tight group-hover:text-gold transition-colors">{{ $display_name }}</h4>
+                                <span class="text-gold font-light italic text-2xl">₹{{ number_format($product->price, 0) }}</span>
                             </div>
 
                             <div class="flex items-center gap-2 mb-6">
                                 <div class="flex text-gold">
                                     @php $rating = $product->average_rating ?? 5; @endphp
                                     @for($i = 1; $i <= 5; $i++)
-                                        <svg class="w-3 h-3 {{ $i <= round($rating) ? 'fill-current' : 'text-forest/10' }}" viewBox="0 0 20 20">
+                                        <svg class="w-3 h-3 {{ $i <= round($rating) ? 'fill-current' : 'text-sunlight/10' }}" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
                                     @endfor
                                 </div>
-                                <span class="text-[8px] font-bold uppercase tracking-widest text-forest/20">({{ $product->review_count ?? 0 }})</span>
+                                <span class="text-[8px] font-bold uppercase tracking-widest text-sunlight/40">({{ $product->review_count ?? 0 }})</span>
                             </div>
                             
-                            <p class="text-sm text-forest/50 mb-10 line-clamp-2 italic font-medium leading-relaxed">"{{ $display_desc }}"</p>
-                            
-                            <div class="flex items-center justify-between pt-8 border-t border-forest/5">
+                            <div class="flex items-center justify-between pt-8 border-t border-sunlight/10 mt-auto">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-forest text-gold flex items-center justify-center text-[8px] font-black italic">
+                                    <div class="w-8 h-8 rounded-full bg-sunlight text-forest flex items-center justify-center text-[8px] font-black italic">
                                         {{ substr($product->user->name ?? 'T', 0, 1) }}
                                     </div>
                                     <div>
-                                        <p class="text-[7px] text-forest/30 font-black uppercase tracking-[0.2em] mb-0.5">Steward</p>
-                                        <p class="font-bold text-forest text-[9px] uppercase tracking-widest">{{ $product->user->name ?? 'Steward' }}</p>
+                                        <p class="text-[7px] text-sunlight/40 font-black uppercase tracking-[0.2em] mb-0.5">Steward</p>
+                                        <p class="font-bold text-sunlight text-[9px] uppercase tracking-widest">{{ $product->user->name ?? 'Steward' }}</p>
                                     </div>
                                 </div>
                                 
-                                <div class="bg-forest text-gold px-6 py-3 rounded-full flex items-center gap-3">
+                                <div class="bg-forest text-gold px-6 py-3 rounded-full flex items-center gap-3 hover:bg-gold hover:text-forest transition-all duration-300 cursor-pointer">
                                     <span class="text-[8px] font-bold uppercase tracking-[0.2em]">Acquire</span>
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
@@ -365,19 +363,9 @@
         <div class="container mx-auto px-6 text-center relative z-10">
             <div class="flex items-center justify-center mb-12">
                 <a href="/" class="group">
-                    <div class="flex items-center gap-4">
-                        <div class="relative w-14 h-14 flex items-center justify-center">
-                            <div class="absolute inset-0 rounded-2xl bg-white/10 border border-white/20 rotate-45 group-hover:rotate-90 transition-transform duration-700"></div>
-                            <svg class="relative w-10 h-10 text-white group-hover:scale-110 transition-transform duration-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 22C12 22 20 18 20 12C20 6 12 2 12 2C12 2 4 6 4 12C4 18 12 22 12 22Z" fill="currentColor" fill-opacity="0.1"/>
-                                <path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                <path d="M12 12L17 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sunlight/40"/>
-                                <path d="M12 16L16 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sunlight/40"/>
-                                <path d="M12 12L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sunlight/40"/>
-                                <path d="M12 16L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sunlight/40"/>
-                                <path d="M12 2C12 2 4 6 4 12C4 18 12 22 12 22C12 22 20 18 20 12C20 6 12 2 12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
+                    <div class="flex items-center gap-2">
+                        <!-- Farmer and Oxen Logo Image -->
+                        <img src="{{ asset('images/logo.png') }}" class="w-20 h-20 object-contain invert brightness-200 group-hover:scale-105 transition-transform duration-500" alt="Terra Logo">
                         <div class="flex flex-col text-left">
                             <span class="font-heading font-black text-3xl tracking-tighter text-white leading-none uppercase">Terra</span>
                             <span class="font-sans font-bold text-[11px] tracking-[0.4em] text-sunlight/50 leading-none uppercase ml-0.5">Market</span>

@@ -86,31 +86,17 @@
                             
                             <div class="grid grid-cols-1 gap-4">
                                 <label class="relative block group cursor-pointer">
-                                    <input type="radio" name="payment_method" value="Estate Credit" class="peer sr-only" checked>
+                                    <input type="radio" name="payment_method" value="razorpay" class="peer sr-only" checked>
                                     <div class="p-6 rounded-3xl border border-forest/5 bg-forest/5 group-hover:bg-forest/10 transition-all peer-checked:border-gold peer-checked:bg-forest peer-checked:text-cream">
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center gap-4">
                                                 <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center group-peer-checked:bg-gold/20">
                                                     <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                                                 </div>
-                                                <span class="text-[10px] font-black uppercase tracking-widest">Estate Credit Card</span>
+                                                <span class="text-[10px] font-black uppercase tracking-widest">Buy Online (Razorpay)</span>
                                             </div>
                                             <div class="w-4 h-4 rounded-full border-2 border-forest/10 peer-checked:border-gold flex items-center justify-center">
                                                 <div class="w-2 h-2 rounded-full bg-gold opacity-0 peer-checked:opacity-100 transition-opacity"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </label>
-
-                                <label class="relative block group cursor-pointer">
-                                    <input type="radio" name="payment_method" value="UPI Settlement" class="peer sr-only">
-                                    <div class="p-6 rounded-3xl border border-forest/5 bg-forest/5 group-hover:bg-forest/10 transition-all peer-checked:border-gold peer-checked:bg-forest peer-checked:text-cream">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-4">
-                                                <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center">
-                                                    <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                                </div>
-                                                <span class="text-[10px] font-black uppercase tracking-widest">UPI Settlement</span>
                                             </div>
                                         </div>
                                     </div>
@@ -141,6 +127,67 @@
                             </button>
                         </div>
                     </form>
+
+                    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.querySelector('form[action="{{ route('products.buy', $product) }}"]');
+                        if (!form) return;
+
+                        form.addEventListener('submit', function(e) {
+                            const paymentRadio = form.querySelector('input[name="payment_method"]:checked');
+                            const paymentMethod = paymentRadio ? paymentRadio.value : '';
+                            
+                            if (paymentMethod === 'razorpay') {
+                                e.preventDefault();
+
+                                const options = {
+                                    "key": "{{ env('RAZORPAY_KEY', 'rzp_test_SqskTnZgL3fp5C') }}",
+                                    "amount": {{ $product->price * 100 }},
+                                    "currency": "INR",
+                                    "name": "TerraMarket",
+                                    "description": "Acquisition Settlement - {{ $product->name }}",
+                                    "image": "/images/logo.png",
+                                    "handler": function (response) {
+                                        // Payment success callback
+                                        const paymentId = document.createElement('input');
+                                        paymentId.type = 'hidden';
+                                        paymentId.name = 'razorpay_payment_id';
+                                        paymentId.value = response.razorpay_payment_id;
+                                        form.appendChild(paymentId);
+                                        
+                                        // Modify radio value to record payment method name in database
+                                        paymentRadio.value = 'Buy Online (Razorpay)';
+                                        
+                                        form.submit();
+                                    },
+                                    "prefill": {
+                                        "name": "{{ auth()->user()->name }}",
+                                        "email": "{{ auth()->user()->email }}"
+                                    },
+                                    "theme": {
+                                        "color": "#1C3F2B"
+                                    }
+                                };
+
+                                 const rzp = new Razorpay(options);
+                                 rzp.on('payment.failed', function (response){
+                                     if (confirm("Razorpay payment failed or cancelled (" + response.error.description + "). Would you like to simulate a successful payment to complete checkout for testing?")) {
+                                         const paymentId = document.createElement('input');
+                                         paymentId.type = 'hidden';
+                                         paymentId.name = 'razorpay_payment_id';
+                                         paymentId.value = 'pay_simulated_' + Math.random().toString(36).substr(2, 9);
+                                         form.appendChild(paymentId);
+                                         
+                                         paymentRadio.value = 'Buy Online (Simulated)';
+                                         form.submit();
+                                     }
+                                 });
+                                 rzp.open();
+                            }
+                        });
+                    });
+                    </script>
                 </div>
             </div>
         </div>

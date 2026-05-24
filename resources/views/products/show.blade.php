@@ -38,10 +38,11 @@
             }
         @endphp
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <!-- Product Visual -->
-            <div class="relative group">
-                <div class="aspect-square rounded-[4rem] overflow-hidden bg-forest/5 premium-shadow border border-forest/5 relative">
+            <div class="flex flex-col gap-6 group">
+                <!-- Image Container -->
+                <div class="aspect-[4/3] rounded-[2.5rem] overflow-hidden bg-forest/5 premium-shadow border border-forest/5 relative">
                     <img src="{{ $imgSrc }}" 
                          class="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 transition-all duration-1000" 
                          alt="{{ $product->name }}"
@@ -50,11 +51,15 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-forest/40 to-transparent opacity-30"></div>
                 </div>
 
-                <!-- Floating Badge -->
-                <div class="absolute -bottom-10 -right-10 bg-cream/90 backdrop-blur-xl p-10 rounded-[3rem] border border-forest/10 shadow-2xl max-w-[240px] animate-float">
-                    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-forest/20 mb-4">Stock Availability</p>
-                    <p class="text-4xl font-heading text-forest mb-2">{{ $product->stock_quantity }}</p>
-                    <p class="text-[9px] font-bold uppercase tracking-widest text-gold italic">Units in Estate</p>
+                <!-- Stock Availability Badge (Shifted Below) -->
+                <div class="bg-cream/50 backdrop-blur-md p-6 lg:p-8 rounded-[2rem] border border-forest/5 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-black uppercase tracking-[0.3em] text-forest/40 mb-1">Stock Availability</p>
+                        <p class="text-[9px] font-bold uppercase tracking-widest text-gold italic">Units currently in Estate</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-5xl font-heading text-forest font-light leading-none">{{ $product->stock_quantity }}</span>
+                    </div>
                 </div>
             </div>
 
@@ -64,7 +69,7 @@
                     {{ $product->category }}
                 </div>
                 
-                <h1 class="font-heading text-6xl text-forest mb-6 leading-none">{{ $product->name }}</h1>
+                <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-forest mb-6 leading-tight">{{ $product->name }}</h1>
                 
                 <div class="flex items-center gap-4 mb-8">
                     <div class="flex text-gold">

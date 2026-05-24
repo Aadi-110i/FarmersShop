@@ -35,6 +35,16 @@ class User extends Authenticatable
         return $this->hasMany(Review::class);
     }
 
+    public function farmerRequests()
+    {
+        return $this->hasMany(FarmerRequest::class);
+    }
+
+    public function fulfilledRequests()
+    {
+        return $this->hasMany(FarmerRequest::class, 'fulfilled_by');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

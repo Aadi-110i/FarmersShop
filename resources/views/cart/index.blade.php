@@ -88,7 +88,7 @@
                                 <div class="mb-12">
                                     <label class="block text-[9px] font-black uppercase tracking-[0.3em] text-cream/30 mb-8">Settlement Method</label>
                                     <div class="space-y-4">
-                                        @foreach(['cod' => 'Estate Collection (COD)', 'upi' => 'Digital Transfer (UPI)', 'card' => 'Institutional Card'] as $val => $label)
+                                        @foreach(['cod' => 'Estate Collection (COD)', 'razorpay' => 'Buy Online (Razorpay)'] as $val => $label)
                                             <label class="flex items-center gap-4 p-5 rounded-[1.5rem] bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition-all group">
                                                 <input type="radio" name="payment_method" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="text-gold focus:ring-gold bg-transparent border-white/20">
                                                 <span class="text-[10px] font-bold uppercase tracking-widest text-cream/70 group-hover:text-cream">{{ $label }}</span>
@@ -101,6 +101,67 @@
                                     Finalize Acquisition
                                 </button>
                             </form>
+
+                            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const form = document.querySelector('form[action="{{ route('cart.checkout') }}"]');
+                                if (!form) return;
+
+                                form.addEventListener('submit', function(e) {
+                                    const paymentRadio = form.querySelector('input[name="payment_method"]:checked');
+                                    const paymentMethod = paymentRadio ? paymentRadio.value : '';
+                                    
+                                    if (paymentMethod === 'razorpay') {
+                                        e.preventDefault();
+
+                                        const options = {
+                                            "key": "{{ env('RAZORPAY_KEY', 'rzp_test_SqskTnZgL3fp5C') }}",
+                                            "amount": {{ $total * 100 }},
+                                            "currency": "INR",
+                                            "name": "TerraMarket",
+                                            "description": "Acquisition Settlement",
+                                            "image": "/images/logo.png",
+                                            "handler": function (response) {
+                                                // Payment success callback
+                                                const paymentId = document.createElement('input');
+                                                paymentId.type = 'hidden';
+                                                paymentId.name = 'razorpay_payment_id';
+                                                paymentId.value = response.razorpay_payment_id;
+                                                form.appendChild(paymentId);
+                                                
+                                                // Change the value to standard readable name for database
+                                                paymentRadio.value = 'Buy Online (Razorpay)';
+                                                
+                                                form.submit();
+                                            },
+                                            "prefill": {
+                                                "name": "{{ auth()->user()->name }}",
+                                                "email": "{{ auth()->user()->email }}"
+                                            },
+                                            "theme": {
+                                                "color": "#1C3F2B"
+                                            }
+                                        };
+
+                                         const rzp = new Razorpay(options);
+                                         rzp.on('payment.failed', function (response){
+                                             if (confirm("Razorpay payment failed or cancelled (" + response.error.description + "). Would you like to simulate a successful payment to complete checkout for testing?")) {
+                                                 const paymentId = document.createElement('input');
+                                                 paymentId.type = 'hidden';
+                                                 paymentId.name = 'razorpay_payment_id';
+                                                 paymentId.value = 'pay_simulated_' + Math.random().toString(36).substr(2, 9);
+                                                 form.appendChild(paymentId);
+                                                 
+                                                 paymentRadio.value = 'Buy Online (Simulated)';
+                                                 form.submit();
+                                             }
+                                         });
+                                         rzp.open();
+                                    }
+                                });
+                            });
+                            </script>
                         </div>
                     </div>
                 </div>

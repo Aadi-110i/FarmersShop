@@ -13,7 +13,7 @@ export default {
         extend: {
             colors: {
                 forest: '#1C3F2B',
-                sage: '#E4EBE5',
+                sage: '#C5E2CD',
                 earth: '#8C6A53',
                 sunlight: '#FDF9EC',
                 gold: '#D4AF37',
